@@ -10,13 +10,16 @@ function walksIndex(req, res){
 
 function walksCreate(req, res){
   var walk = new Walk(req.body);
+
+  
   walk.save(function(err){
     if (err) return res.status(500).send(err);
     console.log(req.body)
     var email = req.body.email;
     User.findOne({ email: email }, function(err, user){
-       user.walks.push(walk);
-       user.save();
+       walk.users.push(user);
+       walk.save();
+       console.log(walk)
     });
     res.status(201).send(walk)
   });

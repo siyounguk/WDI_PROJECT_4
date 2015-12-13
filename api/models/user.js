@@ -6,8 +6,7 @@ var UserSchema = new mongoose.Schema({
   password: { type: String },
   firstName: String,
   lastName: String,
-  walks: [{ type: mongoose.Schema.ObjectId, ref: 'Walk' }]
-
+  favouriteWalks: [{ type: mongoose.Schema.ObjectId, ref: 'Walk' }]
 });
 
 UserSchema.statics.encrypt = function(password) {

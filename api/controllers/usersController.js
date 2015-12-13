@@ -23,6 +23,16 @@ function usersUpdate(req, res){
     if (req.body.password) user.password = req.body.password;
     if (req.body.firstName) user.firstName = req.body.firstName;
     if (req.body.lastName) user.lastName = req.body.lastName;
+    if (req.body.favouriteWalks) user.favouriteWalks.push(req.body.favouriteWalks);
+
+    // var favouriteWalks = req.body.favouriteWalks;
+    // console.log( favouriteWalks)
+
+    // User.findOne({ email: email }, function(err, user){
+    //    walk.users.push(user);
+    //    walk.save();
+    //    console.log(walk)
+    // });
 
     user.save(function(err) {
      if (err) return res.status(500).json({message: "Something went wrong with save!"});
