@@ -6,6 +6,8 @@ module.exports = function(passport) {
   passport.use('local-signup', new LocalStrategy({
     usernameField : 'email',
     passwordField : 'password',
+    firstNameField: 'firstName',
+    lastNameField: 'lastName',
     passReqToCallback : true
   }, function(req, email, password, done) {
     process.nextTick(function() {
@@ -17,8 +19,8 @@ module.exports = function(passport) {
         var newUser       = new User();
         newUser.email  = email;
         newUser.password  = User.encrypt(password);
-        newUser.firstName = req.body.first_name;
-        newUser.secondName = req.body.last_name;
+        newUser.firstName = req.body.firstName;
+        newUser.lastName = req.body.lastName;
 
         newUser.save(function(err) {
           if (err) return done(err);
