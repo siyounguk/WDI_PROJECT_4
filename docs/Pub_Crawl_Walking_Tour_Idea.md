@@ -11,3 +11,19 @@ Users will be able to login and comment / review the walks.
 Users will be able to arrange (through messaging) to meet up for the tour.
 
 Users could post their own routes.
+
+
+MODELS
+
+USER
+
+TOURS
+{stops}
+
+
+Angular directives
+model
+
+Form with google places search
+then send it to google maps with waypoints
+
