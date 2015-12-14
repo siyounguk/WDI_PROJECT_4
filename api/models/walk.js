@@ -4,7 +4,7 @@ var placeSchema = new mongoose.Schema({
     name: String, 
     formatted_address: String,
     lat: Number,
-    lon: Number
+    lng: Number
 })
 
 var WalkSchema = new mongoose.Schema({
@@ -13,7 +13,7 @@ var WalkSchema = new mongoose.Schema({
   stops: [placeSchema], 
   description: String,
   photo: String, 
-  users: [{ type: mongoose.Schema.ObjectId, ref: 'User' }]
+  user: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
 
 

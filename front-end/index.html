@@ -41,6 +41,7 @@
       </nav>
     </header>
 
+
     <div class="message">
       {{users.message}}
     </div>
@@ -68,12 +69,18 @@
          placeholder="Start Point">
       <input id="end" class="controls" type="text"
          placeholder="End Point">
+      <input id="description" class="controls" type="text" placeholder="description">
+      <input id="photo" class="controls" type="text" placeholder="photo URL">
+
       <input type="submit" id="submit" value="set route">
       <br>
+      <input id="pac-input" class="controls" type="text"
+         placeholder="Enter a location">
+
+
     </form>
   
-    <input id="pac-input" class="controls" type="text"
-       placeholder="Enter a location">
+    
     <input type="hidden" name="placeId" id="place-id">
 
      <input type="submit" id="add-location" value="add pub / sight ">
@@ -83,14 +90,16 @@
 
     <ul >
       <li ng-repeat="walk in walks.all">
+
         
-        Start: {{walk.origin.place_id}} 
+        
+        Start: {{walk.origin.name}} 
 
         <ul>
-          <li ng-repeat= "stop in walk.stops">{{stop.place_id}}</li>
+          <li ng-repeat= "stop in walk.stops">{{stop.name}}</li>
         </ul>
 
-        End: {{walk.destination.place_id}}
+        End: {{walk.destination.name}}
         <br>
         <strong>Description: {{walk.description}}</strong> 
 
