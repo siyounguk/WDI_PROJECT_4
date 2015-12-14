@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-
 var placeSchema = new mongoose.Schema({
     place_id: String,
     name: String, 
@@ -9,15 +8,15 @@ var placeSchema = new mongoose.Schema({
 })
 
 var WalkSchema = new mongoose.Schema({
-  origin: [placeSchema],
-  destination:[placeSchema], 
+  origin: placeSchema,
+  destination: placeSchema, 
   stops: [placeSchema], 
   description: String,
   photo: String, 
   users: [{ type: mongoose.Schema.ObjectId, ref: 'User' }]
 });
 
-// place_id, name, address, lat and lng 
+
 
 module.exports = mongoose.model('Walk', WalkSchema);
 

@@ -9,7 +9,6 @@ angular
     self.all    = [];
 
     self.user  = {};
-
     
     function handleLogin(res) {
       var token = res.token ? res.token : null;
@@ -44,14 +43,14 @@ angular
 
     self.getUsers = function() {
 
-      self.all = User.query(function(data){
-        return data.users;
+      // self.all = User.query(function(data){
+      //   return data.users;
         
-      });
-
-      // User.query(function(data){
-      //   self.all = data.users
       // });
+
+      User.query(function(data){
+        self.all = data.users
+      });
     }
 
     self.isLoggedIn = function(){
