@@ -229,16 +229,27 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     
     self.searchResults = []
 
+
+    // var e = document.getElementById("ddlViewBy");
+    // var strUser = e.options[e.selectedIndex].value;
+
+
+
     self.searchWalks = function(){
       self.searchPlace = searchAutocomplete.getPlace()
-      
-      searchParams = {
+      self.distance = document.getElementById('distance-select')
+      distance = self.distance.options[self.distance.selectedIndex].value
+      distNum = parseFloat(distance)
+
+      console.log(distNum)
+      self.searchParams = {
           latitude: self.searchPlace.geometry.location.G, 
           longitude: self.searchPlace.geometry.location.K,
-          distance: 900
+          distance: distNum
       }
   
-      Walk.findRoute(searchParams, function(data){
+    console.log(self.searchParams)
+      Walk.findRoute(self.searchParams, function(data){
         for (var i = 0; i < data.length; i++) {
           self.searchResults = (data[i])
           console.log(self.searchResults.origin.loc)
