@@ -9,7 +9,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   self.user = TokenService.getUser();
 
   self.route = {
-    place_id: {},
     origin: {},
     stops: [],
     destination: {}, 
@@ -65,7 +64,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     self.addRoute = function(){
       self.originPlace = startAutocomplete.getPlace()
-      console.log(self.originPlace)
+      self.destinationPlace = endAutocomplete.getPlace()
       self.route.origin = {
         place_id: self.originPlace.place_id,
         lat: self.originPlace.geometry.location.lat(),
@@ -160,35 +159,43 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   self.addLocation = function (){
     self.infowindow.close();
     self.marker.setVisible(false);
-    var place = self.autocomplete.getPlace();
-    if (!place.geometry) {
-      window.alert("Autocomplete's returned place contains no geometry");
+    var stop = self.autocomplete.getPlace();
+    if (!stop.geometry) {
+      window.alert("Autocomplete's returned stop contains no geometry");
       return;
     }
-    checkboxArray.push(place)
+    // self.route.stops.push({
+    //   place_id: stop.id,
+    //   lat: stop.geometry.location.lat(),
+    //   lng: stop.geometry.location.lng(),
+    //   formatted_address: stop.formatted_address,
+    //   name: stop.name
+    // }) 
+
+    checkboxArray.push(stop)
     self.calculateAndDisplayRoute(self.directionsService, self.directionsDisplay)
-    if (place.geometry.viewport) {
-      self.map.fitBounds(place.geometry.viewport);
+    if (stop.geometry.viewport) {
+      self.map.fitBounds(stop.geometry.viewport);
     } else {
-      self.map.setCenter(place.geometry.location);
+      self.map.setCenter(stop.geometry.location);
       self.map.setZoom(17);  // Why 17? Because it looks good.
     }
     self.marker.setIcon(/** @type {google.maps.Icon} */({
-      url: place.icon,
+      url: stop.icon,
       size: new google.maps.Size(71, 71),
       origin: new google.maps.Point(0, 0),
       anchor: new google.maps.Point(17, 34),
       scaledSize: new google.maps.Size(35, 35)
     }));
-    self.marker.setPosition(place.geometry.location);
+    self.marker.setPosition(stop.geometry.location);
     self.marker.setVisible(true);
 
     var address = '';
-    if (place.address_components) {
+    if (stop.address_components) {
       address = [
-        (place.address_components[0] && place.address_components[0].short_name || ''),
-        (place.address_components[1] && place.address_components[1].short_name || ''),
-        (place.address_components[2] && place.address_components[2].short_name || '')
+        (stop.address_components[0] && stop.address_components[0].short_name || ''),
+        (stop.address_components[1] && stop.address_components[1].short_name || ''),
+        (stop.address_components[2] && stop.address_components[2].short_name || '')
       ].join(' ');
     }
 
