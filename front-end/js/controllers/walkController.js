@@ -10,7 +10,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     stops: []
   };
 
-  self.formData = { latitude: 39.5, longitude: -98.35, distance: 500 };
+  self.formData = { latitude: 51.51, longitude: -0.121, distance: 500 };
 
   route = self.route
 
@@ -235,6 +235,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   self.searchWalks = function(){
     Walk.findRoute(self.formData, function(data){
       console.log(data)
+      
+      for (var i = 0; i < data.length; i++) {
+        console.log(data[i])
+      }
     });
   }
 
