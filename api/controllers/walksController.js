@@ -15,12 +15,12 @@ function walksCreate(req, res){
   walk.save(function(err){
     if (err) return res.status(500).send(err);
     console.log(req.body)
-    var email = req.body.email;
-    User.findOne({ email: email }, function(err, user){
-       walk.users.push(user);
-       walk.save();
-       console.log(walk)
-    });
+    // var email = req.body.email;
+    // User.findOne({ email: email }, function(err, user){
+    //    walk.user.push(user);
+    //    walk.save();
+    //    console.log(walk)
+    // });
     res.status(201).send(walk)
   });
 }

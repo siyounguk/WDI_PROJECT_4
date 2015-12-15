@@ -64,37 +64,32 @@
 
   <div ng-controller="walkController as walks">
   <div id="floating-panel">
-    <form id="start-end-form">
+    <button ng-click="walks.calculateAndDisplayRoute()" >show start / end</button>
+    <form id="start-end-form" ng-submit="walks.addRoute()">
       <input id="start" class="controls" type="text"
          placeholder="Start Point">
       <input id="end" class="controls" type="text"
          placeholder="End Point">
-      <input id="description" class="controls" type="text" placeholder="description">
-      <input id="photo" class="controls" type="text" placeholder="photo URL">
-
-      <input type="submit" id="submit" value="set route">
-      <br>
+      
+      <input id="description" class="controls" type="text" placeholder="description" ng-model="walks.route.description">
+      <input id="photo" class="controls" type="text" placeholder="photo URL" ng-model="walks.route.photo">
       <input id="pac-input" class="controls" type="text"
          placeholder="Enter a location">
-
-
+      <button>add stop</button>
+      <input type="submit" id="submit" value="set route">
+      <br>
+      
     </form>
-  
-    
-    <input type="hidden" name="placeId" id="place-id">
-
-     <input type="submit" id="add-location" value="add pub / sight ">
   </div>
   
   <div id="main-map" style="width:500px;height:500px;"></div>
 
+
+
+
     <ul >
       <li ng-repeat="walk in walks.all">
-
-        
-        
         Start: {{walk.origin.name}} 
-
         <ul>
           <li ng-repeat= "stop in walk.stops">{{stop.name}}</li>
         </ul>
