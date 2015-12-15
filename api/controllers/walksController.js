@@ -4,7 +4,7 @@ var User = require("../models/user");
 function walksIndex(req, res){
   Walk.find({}, function(err, walks) {
     if (err) return res.status(404).send(err).json({message: 'Something went wrong with walks I.' + err});;
-    res.status(200).json({ walks: walks });
+    res.status(200).json(walks);
   });
 }
 
@@ -61,10 +61,9 @@ function walksFind(req, res, next) {
     }).limit(limit).exec(function(err, locations) {
       if (err) {
         console.log(err)
-        return res.json(500, err);
+        return res.status(500).json(err);
       }
-
-      res.json(200, locations);
+      res.status(200).json(locations);
     });
 }
 

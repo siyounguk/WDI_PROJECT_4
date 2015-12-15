@@ -10,7 +10,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     stops: []
   };
 
-  self.formData = {}
+  self.formData = { latitude: 39.5, longitude: -98.35, distance: 500 };
 
   route = self.route
 
@@ -226,25 +226,16 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   self.walk = {}
   
 
-  self.all =  Walk.query(function(data){
-      self.all = data.walks
-    })
+  self.all =  Walk.query();
 
   self.getWalks = function() {
-    Walk.query(function(data){
-      self.all = data.walks
-    });
+    self.all = Walk.query();
   }
 
   self.searchWalks = function(){
-    Walk.findRoute(function(data){
+    Walk.findRoute(self.formData, function(data){
       console.log(data)
-      loc: {
-        $near: {-0.12671829999999318,
-      51.5180173},
-        $maxDistance: 800
-      }
-    })
+    });
   }
 
 }

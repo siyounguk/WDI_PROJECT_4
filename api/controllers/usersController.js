@@ -3,14 +3,14 @@ var User = require('../models/user');
 function usersIndex(req, res) {
   User.find(function(err, users){
     if (err) return res.status(404).json({message: 'Something went wrong with users I.' + err});
-    res.status(200).json({ users: users });
+    res.status(200).json(users);
   });
 }
 
 function usersShow(req, res){
   User.findById(req.params.id, function(err, user){
     if (err) return res.status(404).json({message: 'Something went wrong.'});
-    res.status(200).json({ user: user });
+    res.status(200).json(user);
   });
 }
 
@@ -28,7 +28,7 @@ function usersUpdate(req, res){
     user.save(function(err) {
      if (err) return res.status(500).json({message: "Something went wrong with save!"});
 
-      res.status(201).json({message: 'User successfully updated.', user: user});
+      res.status(201).json(user);
     });
   });
 }

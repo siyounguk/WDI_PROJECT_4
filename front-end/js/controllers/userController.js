@@ -42,15 +42,7 @@ angular
     }
 
     self.getUsers = function() {
-
-      // self.all = User.query(function(data){
-      //   return data.users;
-        
-      // });
-
-      User.query(function(data){
-        self.all = data.users
-      });
+      self.all = User.query();
     }
 
     self.isLoggedIn = function(){
