@@ -22,9 +22,13 @@ router.route('/walks')
   .get(walks.walksIndex)
   .post(walks.walksCreate)
 
+router.route("/walks/find")
+  .get(walks.walksFind)
+
 router.route('/walks/:id')
   .get(walks.walksShow)
 //   .put(walksController.usersUpdate)
 //   .delete(walksController.usersDelete)
+
 
 module.exports = router;

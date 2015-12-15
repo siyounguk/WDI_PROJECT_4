@@ -3,8 +3,11 @@ var placeSchema = new mongoose.Schema({
     place_id: String,
     name: String, 
     formatted_address: String,
-    lat: Number,
-    lng: Number
+    loc: {
+      type: [Number],  // [<longitude>, <latitude>]
+      index: '2d',
+      required: true      // create the geospatial index
+    }
 })
 
 var WalkSchema = new mongoose.Schema({
@@ -13,7 +16,7 @@ var WalkSchema = new mongoose.Schema({
   stops: [placeSchema], 
   description: String,
   photo: String, 
-  user: { type: mongoose.Schema.ObjectId, ref: 'User' }
+  user: [{ type: mongoose.Schema.ObjectId, ref: 'User' }]
 });
 
 

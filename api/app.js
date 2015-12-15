@@ -12,7 +12,7 @@ var config     = require('./config/config');
 var port       = process.env.PORT || 3000;
 // Connect to DB
 mongoose.connect(config.database);
-
+// mongoose.set('debug', true);
 // Setup Passport
 require('./config/passport')(passport);
 

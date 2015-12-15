@@ -10,17 +10,17 @@ function walksIndex(req, res){
 
 function walksCreate(req, res){
   var walk = new Walk(req.body);
-
   
   walk.save(function(err){
     if (err) return res.status(500).send(err);
-    console.log(req.body)
-    // var email = req.body.email;
-    // User.findOne({ email: email }, function(err, user){
-    //    walk.user.push(user);
-    //    walk.save();
-    //    console.log(walk)
-    // });
+    // console.log(err)
+
+    var email = req.body.user.email;
+    User.findOne({ email: email }, function(err, u){
+       walk.user.push(u);
+       walk.save();
+       console.log(walk)
+    });
     res.status(201).send(walk)
   });
 }
@@ -36,12 +36,44 @@ function walksShow(req, res){
   })
 }
 
+function walksFind(req, res, next) {  
+    console.log(req.query)
+    var limit = req.query.limit || 10;
+
+    // get the max distance or set it to 8 kilometers
+    var maxDistance = req.query.distance || 800;
+
+    // we need to convert the distance to radians
+    // the raduis of Earth is approximately 6371 kilometers
+    maxDistance /= 6371;
+    console.log(maxDistance)
+    // // get coordinates [ <longitude> , <latitude> ]
+    var coords = [];
+    coords[0] = req.query.longitude;
+    coords[1] = req.query.latitude;
+
+    // find a location
+    Walk.find({
+      "origin.loc": {
+        $near: coords,
+        $maxDistance: maxDistance
+      }
+    }).limit(limit).exec(function(err, locations) {
+      if (err) {
+        console.log(err)
+        return res.json(500, err);
+      }
+
+      res.json(200, locations);
+    });
+}
 
 
 module.exports = {
   walksIndex: walksIndex,
   walksCreate: walksCreate,
-  walksShow: walksShow
+  walksShow: walksShow,
+  walksFind: walksFind
   // usersUpdate: usersUpdate,
   // usersDelete: usersDelete
 }

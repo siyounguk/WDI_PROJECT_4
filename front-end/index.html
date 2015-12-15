@@ -2,12 +2,11 @@
 <head>
   <title>Walks App</title>
   <!-- External JS Resources -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="js/lib/lodash.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
   <script src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-resource.min.js"></script>
-  <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-maps/2.2.1/angular-google-maps.min.js"></script> -->
-
 
   <!-- Internal JS Resources -->
 
@@ -25,28 +24,62 @@
   <script type="text/javascript" src="./js/services/authInterceptor.js"></script>
 
   <!-- Style -->
+  <link rel="stylesheet" type="text/css" class="ui" href="//oss.maxcdn.com/semantic-ui/2.1.6/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body ng-controller="userController as users" >
     <header>
-      <h1>Users</h1>
-      <h2>Access the user database.</h2>
+      <h1>Pub Hop</h1>
       <nav>
         <ul>
   <!--         <li><a href="#login">Log In</a></li>
           <li><a href="#register">Join</a></li> -->
-          <li ng-hide= "users.isLoggedIn() == false"><a href="#" ng-click="users.getUsers()">get users</a></li>
           <li ng-hide= "users.isLoggedIn() == false"><a href="#" ng-click="users.disappear()">Log Out</a></li>
+          <li ng-hide= "users.isLoggedIn() == false"  ></li>
         </ul>
       </nav>
     </header>
+    <section ng-hide= "users.isLoggedIn() == true">
+      <h3>Login</h3>
+      <form id="login" ng-submit="users.login()">
+
+
+        <label for="email">email</label>
+        <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
+
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="What is your password?" ng-model="users.user.password">
+
+        <input type="submit" value="Access">
+      </form>
+    </section>
+    <section ng-hide= "users.isLoggedIn() == true">
+      <h3>Join</h3>
+      <form id="register" ng-submit="users.register()">
+
+        <label for="email">Email</label>
+        <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
+
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" placeholder="What is your email?" ng-model="users.user.firstName">
+
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" placeholder="What is your email?" ng-model="users.user.lastName">
+
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password" ng-model="users.user.password">
+
+        <input type="submit" value="Access">
+      </form>
+    </section>
+
 
 
     <div class="message">
       {{users.message}}
     </div>
 
-  <section ng-hide= "users.isLoggedIn() == false">
+<!--   <section ng-hide= "users.isLoggedIn() == false">
     <p>Here is the list of our current users:</p>
     <ul >
       <li ng-repeat="user in users.all">
@@ -54,15 +87,32 @@
         <strong>{{user.email}}</strong> 
       </li>
     </ul>
-  </section>
-
-
-
-  <p>Here is the list of our current walks:</p>
-
-
+  </section> -->
 
   <div ng-controller="walkController as walks">
+
+<!--   <form ng-submit="walks.searchWalks()">
+    <input id="location" class="controls" type="text"
+       placeholder="Location">
+    <input type="submit" id="submit" value="search walk">
+  </form> -->
+
+  <form ng-submit="walks.searchWalks()">
+    <div class="form-group">
+        <label for="latitude">Your Latitude</label>
+        <input type="text" class="form-control" id="latitude" placeholder="39.5" ng-model="walks.formData.latitude" readonly>
+    </div>
+    <div class="form-group">
+        <label for="longitude">Your Longitude</label>
+        <input type="text" class="form-control" id="longitude" placeholder="-98.35" ng-model="walks.formData.longitude" readonly>
+    </div>
+    <div class="form-group">
+        <label for="distance">Max. Distance (miles)</label>
+        <input type="text" class="form-control" id="distance" placeholder="500" ng-model="walks.formData.distance">
+     </div>
+    <input type="submit" id="submit" value="geo locate dude">
+  </form>
+
   <div id="floating-panel">
     <button ng-click="walks.calculateAndDisplayRoute()" >show start / end</button>
     <button ng-click="walks.addLocation()">add stop</button>
@@ -83,58 +133,33 @@
     </form>
   </div>
   
-  <div id="main-map" style="width:700px;height:700px;"></div>
+  <div id="main-map" style="width:700px;height:600px;"></div>
   <div id="directions-panel"></div>
+  <a href="#" ng-click="walks.geolocate()">find yourself</a>
+    <p>Here is the list of our current walks:</p>
+  <ul >
+    <li ng-repeat="walk in walks.all">
+      Start: {{walk.origin.name}}, {{walk.origin.formatted_address}}
+      <ul>
+        <li ng-repeat= "stop in walk.stops">{{stop.name}}</li>
+      </ul>
 
+      End: {{walk.destination.name}}, {{walk.destination.formatted_address}}
 
+      <br>
+      <strong>Description: {{walk.description}}</strong> 
+      <br>
+      <button>See Route</button>
+      User:
+      {{walk.user}}
+    </li>
+    <br> 
+  </ul>
 
-
-    <ul >
-      <li ng-repeat="walk in walks.all">
-        Start: {{walk.origin.name}} 
-        <ul>
-          <li ng-repeat= "stop in walk.stops">{{stop.name}}</li>
-        </ul>
-
-        End: {{walk.destination.name}}
-        <br>
-        <strong>Description: {{walk.description}}</strong> 
-
-        {{walk.users}}
-      </li>
-    </ul>
+ 
   </div>
 
-  <section ng-hide= "users.isLoggedIn() == true">
-    <h3>Login</h3>
-    <form id="login" ng-submit="users.login()">
-
-
-      <label for="email">email</label>
-      <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
-
-      <label for="password">Password</label>
-      <input type="password" name="password" placeholder="What is your password?" ng-model="users.user.password">
-
-      <input type="submit" value="Access">
-    </form>
-  </section>
-  <section ng-hide= "users.isLoggedIn() == true">
-    <h3>Join</h3>
-    <form id="register" ng-submit="users.register()">
-
-      <label for="email">Email</label>
-      <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
-
-      <label for="password">Password</label>
-      <input type="password" name="password" placeholder="Password" >
-
-      <input type="submit" value="Access">
-    </form>
-  </section>
-
-
-
+ 
   
 </body>
 </html>
