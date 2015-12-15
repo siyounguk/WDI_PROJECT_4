@@ -225,15 +225,24 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     var searchAutocomplete = new maps.places.Autocomplete(self.search);
     // endAutocomplete.bindTo('bounds', self.map);
     self.searchPlace = searchAutocomplete.getPlace()
-    console.log(self.searchPlace)
-  
+    // console.log(self.searchPlace)
+    
+    self.searchResults = []
+
     self.searchWalks = function(){
       self.searchPlace = searchAutocomplete.getPlace()
-      console.log(self.searchPlace)
-      Walk.findRoute(self.searchPlace, function(data){
+      
+      searchParams = {
+          latitude: self.searchPlace.geometry.location.G, 
+          longitude: self.searchPlace.geometry.location.K,
+          distance: 900
+      }
+  
+      Walk.findRoute(searchParams, function(data){
         for (var i = 0; i < data.length; i++) {
-          console.log(data[i])
-        }
+          self.searchResults = (data[i])
+          console.log(self.searchResults.origin.loc)
+      }
     });
 
 
