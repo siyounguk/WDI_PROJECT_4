@@ -97,7 +97,7 @@
     <input type="submit" id="submit" value="search walk">
   </form> -->
 
-  <form ng-submit="walks.searchWalks()">
+<!--   <form ng-submit="walks.searchWalks()">
     <div class="form-group">
         <label for="latitude">Your Latitude</label>
         <input type="text" class="form-control" id="latitude" placeholder="latitude" ng-model="walks.formData.latitude" >
@@ -111,6 +111,12 @@
         <input type="text" class="form-control" id="distance" placeholder="500" ng-model="walks.formData.distance">
      </div>
     <input type="submit" id="submit" value="geo locate dude">
+  </form> -->
+
+  <form id="search-form" ng-submit="walks.searchWalks()">
+    <input id="search" class="controls" type="text"
+       placeholder="search" >
+    <input type="submit" id="submit" value="search dude">
   </form>
 
   <div id="floating-panel">

@@ -88,6 +88,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     endAutocomplete.bindTo('bounds', self.map);
     self.destinationPlace = endAutocomplete.getPlace()
 
+
     self.addRoute = function(){
       self.route.user = TokenService.getUser();
        // = self.user 
@@ -217,8 +218,28 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       }
 
 
+
     }
 
+    self.search = document.getElementById('search');
+    var searchAutocomplete = new maps.places.Autocomplete(self.search);
+    // endAutocomplete.bindTo('bounds', self.map);
+    self.searchPlace = searchAutocomplete.getPlace()
+    console.log(self.searchPlace)
+  
+    self.searchWalks = function(){
+      self.searchPlace = searchAutocomplete.getPlace()
+      console.log(self.searchPlace)
+      Walk.findRoute(self.searchPlace, function(data){
+        for (var i = 0; i < data.length; i++) {
+          console.log(data[i])
+        }
+    });
+
+
+
+    
+  }
 
   });
 
@@ -232,14 +253,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.all = Walk.query();
   }
 
-  self.searchWalks = function(){
-    Walk.findRoute(self.formData, function(data){
-      console.log(data)
-      
-      for (var i = 0; i < data.length; i++) {
-        console.log(data[i])
-      }
-    });
-  }
+
 
 }
