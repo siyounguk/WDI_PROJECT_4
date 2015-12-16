@@ -1,5 +1,10 @@
 body{
-  z-index: -2;
+  /*z-index: -2;*/
+}
+
+#title{
+  text-align: center;
+  margin: 0 auto;
 }
 
 .angular-google-map-container { height: 400px; }

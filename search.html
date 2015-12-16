@@ -1,0 +1,22 @@
+<div ng-controller="walkController as walks" ng-hide="home">
+  <button id="clear map" ng-click= " walks.clearMap()"> Clear map </button>
+  
+  <form id="search-form" ng-submit="walks.searchWalks()">
+    <input id="search" class="controls" type="text"
+       placeholder="search" >
+    <select id="distance-select" placeholder= "select distance">
+      <option value= "0.5">0.5</option>
+      <option value= "1">1.0</option>
+      <option value= "2">2.0</option>
+      <option value= "5">5.0</option>
+    </select>
+    <input type="submit" id="submit" value="search dude">
+  </form>
+  
+  <ul>
+    <li ng-repeat= "result in walks.searchResults" ng-click="walks.selectWalk(result)">   
+      {{result.origin.name}}, {{result.origin.formatted_address}}
+      <a href="#" ng-click="walks.showRoute(character)">show route</a>
+    </li>
+  </ul>
+</div>

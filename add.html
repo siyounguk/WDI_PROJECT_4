@@ -1,0 +1,16 @@
+
+<div ng-controller="walkController as walks" id="floating-panel">
+  <button ng-click="walks.calculateAndDisplayRoute()" >show start / end</button>
+  <button ng-click="walks.addLocation()">add stop</button>
+  <form id="start-end-form" ng-submit="walks.addRoute()">
+    <input id="start" class="controls" type="text"
+     placeholder="Start Point" ng-model="walks.route.origin">
+    <input id="end" class="controls" type="text"
+     placeholder="End Point">     
+    <input id="description" class="controls" type="text" placeholder="description" ng-model="walks.route.description">
+    <input id="photo" class="controls" type="text" placeholder="photo URL" ng-model="walks.route.photo">
+    <input id="pac-input" class="controls" type="text"
+     placeholder="Enter a location">
+    <input type="submit" id="submit" value="set route">    
+  </form>
+</div>  

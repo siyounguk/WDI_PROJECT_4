@@ -1,0 +1,19 @@
+<section ng-hide= "users.isLoggedIn() == true">
+  <h3>Join</h3>
+  <form id="register" ng-submit="users.register()">
+
+    <label for="email">Email</label>
+    <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
+
+    <label for="firstName">First Name</label>
+    <input type="text" name="firstName" placeholder="First Name" ng-model="users.user.firstName">
+
+    <label for="lastName">Last Name</label>
+    <input type="text" name="lastName" placeholder="Last Name" ng-model="users.user.lastName">
+
+    <label for="password">Password</label>
+    <input type="password" name="password" placeholder="Password" ng-model="users.user.password">
+
+    <input type="submit" value="Access">
+  </form>
+</section>

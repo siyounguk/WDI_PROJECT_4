@@ -24,7 +24,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     });
     self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 14 });
 
-    self.infowindow = new maps.InfoWindow({map : self.map});
+    // self.infowindow = new maps.InfoWindow({map : self.map});
     self.geolocate = function() {
       
       if (navigator.geolocation) {

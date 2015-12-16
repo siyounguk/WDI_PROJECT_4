@@ -29,124 +29,26 @@
 </head>
 <body ng-controller="userController as users" >
     <header>
-      <h1>Pub Hop</h1>
       <nav>
-        <ul>
-  <!--         <li><a href="#login">Log In</a></li>
-          <li><a href="#register">Join</a></li> -->
-          <li ng-hide= "users.isLoggedIn() == false"><a href="#" ng-click="users.disappear()">Log Out</a></li>
-          <!-- <li ng-hide= "users.isLoggedIn() == false"  ></li>  -->
-          <li></li>
-        </ul>
+        <a ui-sref-active="active" ui-sref="home" ng-model="home" ng-hide="home">HOME</a>
+        <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="login">LOGIN</a>
+        <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="register">register</a>
+        <a ng-hide= "users.isLoggedIn() == false" ui-sref-active="active" ui-sref="search">search</a>
+        <a ng-hide= "users.isLoggedIn() == false" ui-sref-active="active" ui-sref="add">add</a>
+
+        <a ng-hide= "users.isLoggedIn() == false" href="#" ng-click="users.disappear()">Log Out</a>
       </nav>
     </header>
-    <section ng-hide= "users.isLoggedIn() == true">
-      <h3>Login</h3>
-      <form id="login" ng-submit="users.login()">
 
-
-        <label for="email">email</label>
-        <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
-
-        <label for="password">Password</label>
-        <input type="password" name="password" placeholder="What is your password?" ng-model="users.user.password">
-
-        <input type="submit" value="Access">
-      </form>
-    </section>
-    <section ng-hide= "users.isLoggedIn() == true">
-      <h3>Join</h3>
-      <form id="register" ng-submit="users.register()">
-
-        <label for="email">Email</label>
-        <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
-
-        <label for="firstName">First Name</label>
-        <input type="text" name="firstName" placeholder="What is your email?" ng-model="users.user.firstName">
-
-        <label for="lastName">Last Name</label>
-        <input type="text" name="lastName" placeholder="What is your email?" ng-model="users.user.lastName">
-
-        <label for="password">Password</label>
-        <input type="password" name="password" placeholder="Password" ng-model="users.user.password">
-
-        <input type="submit" value="Access">
-      </form>
-    </section>
+    <div ui-view>
+    </div>
 
     <div class="message">
       {{users.message}}
     </div>
-<!--   <section ng-hide= "users.isLoggedIn() == false">
-    <p>Here is the list of our current users:</p>
-    <ul >
-      <li ng-repeat="user in users.all">
-        
-        <strong>{{user.email}}</strong> 
-      </li>
-    </ul>
-  </section> -->
 
   <div ng-controller="walkController as walks">
-
-    <!--   <form ng-submit="walks.searchWalks()">
-    <input id="location" class="controls" type="text"
-       placeholder="Location">
-    <input type="submit" id="submit" value="search walk">
-    </form> -->
-
-    <!--   <form ng-submit="walks.searchWalks()">
-    <div class="form-group">
-        <label for="latitude">Your Latitude</label>
-        <input type="text" class="form-control" id="latitude" placeholder="latitude" ng-model="walks.formData.latitude" >
-    </div>
-    <div class="form-group">
-        <label for="longitude">Your Longitude</label>
-        <input type="text" class="form-control" id="longitude" placeholder="longitude" ng-model="walks.formData.longitude" >
-    </div>
-    <div class="form-group">
-        <label for="distance">Max. Distance (miles)</label>
-        <input type="text" class="form-control" id="distance" placeholder="500" ng-model="walks.formData.distance">
-     </div>
-    <input type="submit" id="submit" value="geo locate dude">
-  </form> -->
-    <button id="clear map" ng-click= " walks.clearMap()"> Clear map </button>
-
-    <form id="search-form" ng-submit="walks.searchWalks()">
-      <input id="search" class="controls" type="text"
-         placeholder="search" >
-      <select id="distance-select" placeholder= "select distance">
-        <option value= "0.5">0.5</option>
-        <option value= "1">1.0</option>
-        <option value= "2">2.0</option>
-        <option value= "5">5.0</option>
-      </select>
-      <input type="submit" id="submit" value="search dude">
-    </form>
-
-    <ul>
-      <li ng-repeat= "result in walks.searchResults" ng-click="walks.selectWalk(  result)">   
-        {{result.origin.name}}, {{result.origin.formatted_address}}
-        <a href="#" ng-click="walks.showRoute(character)">show route</a>
-      </li>
-    </ul>
-
-    <div id="floating-panel">
-      <button ng-click="walks.calculateAndDisplayRoute()" >show start / end</button>
-      <button ng-click="walks.addLocation()">add stop</button>
-      <form id="start-end-form" ng-submit="walks.addRoute()">
-        <input id="start" class="controls" type="text"
-         placeholder="Start Point" ng-model="walks.route.origin">
-        <input id="end" class="controls" type="text"
-         placeholder="End Point">     
-        <input id="description" class="controls" type="text" placeholder="description" ng-model="walks.route.description">
-        <input id="photo" class="controls" type="text" placeholder="photo URL" ng-model="walks.route.photo">
-        <input id="pac-input" class="controls" type="text"
-         placeholder="Enter a location">
-        <input type="submit" id="submit" value="set route">    
-      </form>
-    </div>  
-<!--     <div id="walks-list">
+  <!--     <div id="walks-list">
       <a href="#" ng-click="walks.geolocate()">find yourself</a>
       <p>Here is the list of our current walks:</p>
       <ul>
@@ -166,8 +68,7 @@
         <br> 
       </ul>
     </div> -->
+    <div id="main-map" style="width:100vw;height:100vh;"></div>
   </div> 
-  <div id="main-map" style="width:100vw;height:100vh;"></div>
-
 </body>
 </html>
