@@ -248,7 +248,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
           distance: distNum
       }
   
-    console.log(self.searchParams)
+
       Walk.findRoute(self.searchParams, function(data){
         for (var i = 0; i < data.length; i++) {
           self.searchResults = (data[i])

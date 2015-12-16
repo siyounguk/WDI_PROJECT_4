@@ -128,6 +128,7 @@
   <ul>
     <li ng-repeat= "result in walks.searchResults">
       {{result.name}}, {{result.formatted_address}}
+      <a href="#" ng-click="walks.showRoute(character)">Edit</a>
     </li>
   </ul>
 
