@@ -1,3 +1,7 @@
+body{
+  z-index: -2;
+}
+
 .angular-google-map-container { height: 400px; }
 
 #floating-panel {
@@ -12,3 +16,14 @@
   line-height: 30px;
   padding-left: 10px;
 }
+
+#main-map {
+  /*position: absolute;*/
+  /*z-index: -1;*/
+}
+
+
+/*#walks-list {
+  background-color: white;
+  opacity: 0.1;
+}*/

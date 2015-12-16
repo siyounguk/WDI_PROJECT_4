@@ -27,8 +27,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.infowindow = new maps.InfoWindow({map : self.map});
     self.geolocate = function() {
       
-      console.log(self.map)
-      console.log(self.infowindow)
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
@@ -36,10 +34,9 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
             lng: position.coords.longitude
           };
 
-          console.log(self.infowindow)
           self.infoWindow.setPosition(pos);
           self.infoWindow.setContent('Location found.');
-          console.log(self.infoWindow.setContent('Location found.'))
+
           self.map.setCenter(pos);
         }, function() {
           handleLocationError(true, self.infoWindow, self.map.getCenter());
@@ -74,6 +71,12 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       anchorPoint: new maps.Point(0, -29)
     });
 
+
+
+    self.clearMap = function (){
+     self.directionsDisplay.setMap(null)       
+    }
+
     self.input = document.getElementById('pac-input');
     self.autocomplete = new maps.places.Autocomplete(self.input);
     self.autocomplete.bindTo('bounds', self.map); 
@@ -91,7 +94,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     self.addRoute = function(){
       self.route.user = TokenService.getUser();
-       // = self.user 
       self.originPlace = startAutocomplete.getPlace()
       self.destinationPlace = endAutocomplete.getPlace()
 
@@ -116,10 +118,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       }
       routeDestination = self.route.destination
       route.destination = routeDestination      
-
-      console.log(route.stops)
-      console.log(self.route.user)
-  
       
       Walk.save(self.route)
     }
@@ -312,6 +310,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         }
       }) 
     }
+
 
 
 

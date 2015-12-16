@@ -1,5 +1,5 @@
 angular
-  .module('walks', ['angular-jwt', 'ngResource', 'uiGmapgoogle-maps'])
+  .module('walks', ['angular-jwt', 'ngResource', 'uiGmapgoogle-maps', 'ui.router'])
   .constant('API', 'http://localhost:3000/api')
   .config(Interceptors)
   .config(GoogleMaps);
