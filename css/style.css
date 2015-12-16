@@ -82,7 +82,14 @@ a {
   color: #fff;
 }
 
+img{
+  opacity: 0.8;
+  border-radius: 10px;
+}
 
+/*nav {
+  position: absolute;
+}*/
 /*#walks-list {
   background-color: white;
   opacity: 0.1;

@@ -2,9 +2,11 @@ angular
   .module('walks')
   .controller('walkController', WalksController);
 
-WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogleMapApi', 'TokenService'];
-function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService){
+WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogleMapApi', 'TokenService', '$interval'];
+function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService, $interval){
   var self = this;
+
+  self.$interval = $interval;
 
   self.route = {
     stops: []
@@ -78,7 +80,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
      self.directionsDisplay.setMap(null)       
     }
 
-    function journeyAutocompleteFields(){
+    self.journeyAutocompleteFields = function(){
       self.input = document.getElementById('pac-input');
       self.autocomplete = new maps.places.Autocomplete(self.input);
       self.autocomplete.bindTo('bounds', self.map); 
@@ -94,11 +96,11 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       self.destinationPlace = endAutocomplete.getPlace()
     }
 
-
     self.addRoute = function(){
       self.route.user = TokenService.getUser();
-      self.originPlace = startAutocomplete.getPlace()
-      self.destinationPlace = endAutocomplete.getPlace()
+      journeyAutocompleteFields()
+      // self.originPlace = startAutocomplete.getPlace()
+      // self.destinationPlace = endAutocomplete.getPlace()
 
       originLoc = self.originPlace.geometry.location
 
@@ -126,8 +128,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     }
 
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
-      
-      // // console.log(originPlaceId)
+      journeyAutocompleteFields()
+      console.log(self.originPlace)
       // // if (originPlace.photos){
       // //   console.log(originPlace.photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}))
       // // }
@@ -223,12 +225,13 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     }
 
-
-    // self.search = document.getElementById('search');
-    // var searchAutocomplete = new maps.places.Autocomplete(self.search);
-    // // endAutocomplete.bindTo('bounds', self.map);
-    // self.searchPlace = searchAutocomplete.getPlace()
-    // // console.log(self.searchPlace)
+    self.searchAutocompleteFields = function(){
+      self.search = document.getElementById('search');
+      var searchAutocomplete = new maps.places.Autocomplete(self.search);
+      // endAutocomplete.bindTo('bounds', self.map);
+      self.searchPlace = searchAutocomplete.getPlace()
+      // console.log(self.searchPlace)
+    }
     
     self.searchResults = []
 
@@ -266,13 +269,9 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     self.calculateSavedRoute = function (directionsService, directionsDisplay) {
 
-
-
-      console.log(self.selectedWalk)
-
       var originPlace = self.selectedWalk.origin
       var destinationPlace = self.selectedWalk.destination
-      console.log(originPlace.loc[0][1])
+
   
       // console.log(originPlace.geometry.location)
 
@@ -323,13 +322,5 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
   
   self.walk = {}
-
-
-  
-
   self.all =  Walk.query();
-
-
-
-
 }

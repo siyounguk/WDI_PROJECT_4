@@ -1,12 +1,15 @@
 <div class='shader'></div>
 
 <div class="centered">
-  <div class="contain">
-    <h1 id="title">PUB HOP</h1>
+  <div class="contain" ng-controller="walkController as walks">
+    <h1 id="title"><img src="./assets/PUB_HOP.jpg" width="300px"></h1>
+    <br>
     <h2>Plan your top trips in london</h2>
     <ul>
       <li><a sref="login">Login</a></li>
       <li><a sref="register">Register</a></li>
+      <li><a  ui-sref-active="active" ui-sref="search" ng-click= "walks.searchAutocompleteFields()">search</a></li>
+      <li><a ui-sref-active="active" ui-sref="add">add</a></li>
     </ul>
   </div>
 </div>

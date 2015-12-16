@@ -1,4 +1,4 @@
-<div ng-controller="walkController as walks" ng-hide="home">
+<div ng-controller="walkController as walks"  ng-init="walks.searchAutocompleteFields()">
   
   <form id="search-form" ng-submit="walks.searchWalks()">
     <input id="search" class="controls" type="text"

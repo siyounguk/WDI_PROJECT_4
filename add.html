@@ -1,5 +1,5 @@
 
-<div ng-controller="walkController as walks" id="floating-panel">
+<div ng-controller="walkController as walks" id="floating-panel" ng-init="walks.journeyAutocompleteFields()">
   <button ng-click="walks.calculateAndDisplayRoute()" >show start / end</button>
   <button ng-click="walks.addLocation()">add stop</button>
   <form id="start-end-form" ng-submit="walks.addRoute()">
