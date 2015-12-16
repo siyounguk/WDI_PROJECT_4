@@ -117,18 +117,19 @@
     <input id="search" class="controls" type="text"
        placeholder="search" >
     <select id="distance-select" placeholder= "select distance">
-      <option value= "500">0.5</option>
-      <option value= "1000">1.0</option>
-      <option value= "2000">2.0</option>
-      <option value= "5000">5.0</option>
+      <option value= "0.5">0.5</option>
+      <option value= "1">1.0</option>
+      <option value= "2">2.0</option>
+      <option value= "5">5.0</option>
     </select>
     <input type="submit" id="submit" value="search dude">
   </form>
 
   <ul>
-    <li ng-repeat= "result in walks.searchResults">
-      {{result.name}}, {{result.formatted_address}}
-      <a href="#" ng-click="walks.showRoute(character)">Edit</a>
+    <li ng-repeat= "result in walks.searchResults" ng-click="walks.selectWalk(result)">
+      
+      {{result.origin.name}}, {{result.origin.formatted_address}}
+      <a href="#" ng-click="walks.showRoute(character)">show route</a>
     </li>
   </ul>
 

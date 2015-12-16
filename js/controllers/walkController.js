@@ -229,49 +229,102 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     
     self.searchResults = []
 
-
-    // var e = document.getElementById("ddlViewBy");
-    // var strUser = e.options[e.selectedIndex].value;
-
-
-
     self.searchWalks = function(){
       self.searchPlace = searchAutocomplete.getPlace()
       self.distance = document.getElementById('distance-select')
       distance = self.distance.options[self.distance.selectedIndex].value
       distNum = parseFloat(distance)
-
+      // distNumK = distNum /=111.2 
       console.log(distNum)
       self.searchParams = {
           latitude: self.searchPlace.geometry.location.G, 
           longitude: self.searchPlace.geometry.location.K,
           distance: distNum
       }
-  
-
-      Walk.findRoute(self.searchParams, function(data){
-        for (var i = 0; i < data.length; i++) {
-          self.searchResults = (data[i])
-          console.log(self.searchResults.origin.loc)
-      }
-    });
-
-
-
     
-  }
+  
+      Walk.findRoute(self.searchParams, function(data){
+         self.searchResults = data
+      });
+    }
+
+    self.selectWalk = function(walk) {
+      self.selectedWalk = Walk.get({ id: walk._id });
+      // console.log(self)
+      self.selectedWalk.$promise.then(function(data){
+
+          self.selectedWalk = data
+          self.calculateSavedRoute(self.directionsService, self.directionsDisplay)
+      });
+    };
+
+    var walkData
+
+
+    self.calculateSavedRoute = function (directionsService, directionsDisplay) {
+
+
+
+      console.log(self.selectedWalk)
+
+      var originPlace = self.selectedWalk.origin
+      var destinationPlace = self.selectedWalk.destination
+      console.log(originPlace.loc[0][1])
+  
+      // console.log(originPlace.geometry.location)
+
+      var waypts = [];
+
+      for (var i = 0; i < self.selectedWalk.stops.length; i++) {  
+        waypts.push({
+          location: self.selectedWalk.stops[i].formatted_address,
+          stopover: true
+        })  
+        // placesList.innerHTML += '<li>' + checkboxArray[i].name + '<img src='+checkboxArray.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})+'>'+'</li>'
+      }
+      
+
+      self.directionsService.route({
+        origin: originPlace.formatted_address,
+        destination: destinationPlace.formatted_address,
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.WALKING,
+      }, function(response, status) {
+        self.directionsDisplay.suppressMarkers = true
+        if (status === google.maps.DirectionsStatus.OK) {
+          self.directionsDisplay.setDirections(response);
+          var route = response.routes[0];
+
+          var summaryPanel = document.getElementById('directions-panel');
+          summaryPanel.innerHTML = '';
+          // For each route, display summary information.
+          for (var i = 0; i < route.legs.length; i++) {
+            var routeSegment = i + 1;
+            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                '</b><br>';
+            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+          }
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      }) 
+    }
+
+
 
   });
 
   
   self.walk = {}
+
+
   
 
   self.all =  Walk.query();
 
-  self.getWalks = function() {
-    self.all = Walk.query();
-  }
 
 
 

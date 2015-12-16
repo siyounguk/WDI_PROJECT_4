@@ -1,6 +1,6 @@
 angular
   .module('walks', ['angular-jwt', 'ngResource', 'uiGmapgoogle-maps'])
-  .constant('API', 'http://serene-sierra-1004.herokuapp.com/')
+  .constant('API', 'http://localhost:3000/api')
   .config(Interceptors)
   .config(GoogleMaps);
 
