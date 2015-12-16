@@ -7,6 +7,11 @@ body{
   margin: 0 auto;
 }
 
+#ui-panel{
+  z-index: 1;
+  position: relative;
+}
+
 .angular-google-map-container { height: 400px; }
 
 #floating-panel {
@@ -23,8 +28,58 @@ body{
 }
 
 #main-map {
-  /*position: absolute;*/
-  /*z-index: -1;*/
+/*  position: absolute;
+*/  /*z-index: -1;*/
+}
+
+
+.centered {
+  z-index: 2;
+  position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%,-50%);
+}
+
+
+.contain {
+  text-align: center;
+  background-color: none;
+  padding: 50px;
+  color: #fff;
+}
+
+.contain h1 {
+  font-size: 80px;
+}
+
+.contain h2 {
+  font-size: 25px;
+  margin-top: -10px;
+}
+
+.shader {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color:rgba(0,0,0,0.5);
+}
+
+.contain ul {
+  margin: 0;
+  padding: 0;
+}
+
+.contain ul li {
+  margin: 10px;
+  display: inline-block;
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
 }
 
 

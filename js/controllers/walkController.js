@@ -22,9 +22,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       strokeOpacity: 0.6,
       strokeWeight: 9,
     });
-    self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 14 , styles: [{"featureType":"administrative.neighborhood","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"landscape.natural.landcover","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"landscape.natural.landcover","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"landscape.natural.terrain","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.attraction","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.medical","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#cbe3cc"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.school","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.sports_complex","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.highway.controlled_access","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"labels","stylers":[{"visibility":"simplified"},{"invert_lightness":true}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"visibility":"on"}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"visibility":"on"}]},{"featureType":"road.local","elementType":"labels","stylers":[{"invert_lightness":true}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","elementType":"labels.text","stylers":[{"visibility":"simplified"},{"color":"#777777"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"off"},{"lightness":700}]},{"featureType":"transit.line","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#9cdfdf"},{"visibility":"simplified"}]}]});
+    self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 14 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}]});
 
     self.infowindow = new maps.InfoWindow({map : self.map});
+    self.infowindow.close()
     self.geolocate = function() {
       
       if (navigator.geolocation) {
@@ -77,19 +78,21 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
      self.directionsDisplay.setMap(null)       
     }
 
-    self.input = document.getElementById('pac-input');
-    self.autocomplete = new maps.places.Autocomplete(self.input);
-    self.autocomplete.bindTo('bounds', self.map); 
-   
-    self.startInput = document.getElementById('start');
-    var startAutocomplete = new maps.places.Autocomplete(self.startInput);
-    startAutocomplete.bindTo('bounds', self.map);
-    self.originPlace = startAutocomplete.getPlace()
-   
-    self.endInput = document.getElementById('end');
-    var endAutocomplete = new maps.places.Autocomplete(self.endInput);
-    endAutocomplete.bindTo('bounds', self.map);
-    self.destinationPlace = endAutocomplete.getPlace()
+    function journeyAutocompleteFields(){
+      self.input = document.getElementById('pac-input');
+      self.autocomplete = new maps.places.Autocomplete(self.input);
+      self.autocomplete.bindTo('bounds', self.map); 
+     
+      self.startInput = document.getElementById('start');
+      var startAutocomplete = new maps.places.Autocomplete(self.startInput);
+      startAutocomplete.bindTo('bounds', self.map);
+      self.originPlace = startAutocomplete.getPlace()
+     
+      self.endInput = document.getElementById('end');
+      var endAutocomplete = new maps.places.Autocomplete(self.endInput);
+      endAutocomplete.bindTo('bounds', self.map);
+      self.destinationPlace = endAutocomplete.getPlace()
+    }
 
 
     self.addRoute = function(){
@@ -124,14 +127,14 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
       
-      // console.log(originPlaceId)
-      // if (originPlace.photos){
-      //   console.log(originPlace.photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}))
-      // }
-      var originPlace = startAutocomplete.getPlace()
-      var destinationPlace = endAutocomplete.getPlace()
-      // console.log(originPlace)
-      // console.log(originPlace.geometry.location)
+      // // console.log(originPlaceId)
+      // // if (originPlace.photos){
+      // //   console.log(originPlace.photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}))
+      // // }
+      // var originPlace = startAutocomplete.getPlace()
+      // var destinationPlace = endAutocomplete.getPlace()
+      // // console.log(originPlace)
+      // // console.log(originPlace.geometry.location)
 
       var waypts = [];
 
@@ -171,6 +174,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         }
       }) 
     }
+
     self.addLocation = function (){
       self.infowindow.close();
       self.marker.setVisible(false);
@@ -219,11 +223,12 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     }
 
-    self.search = document.getElementById('search');
-    var searchAutocomplete = new maps.places.Autocomplete(self.search);
-    // endAutocomplete.bindTo('bounds', self.map);
-    self.searchPlace = searchAutocomplete.getPlace()
-    // console.log(self.searchPlace)
+
+    // self.search = document.getElementById('search');
+    // var searchAutocomplete = new maps.places.Autocomplete(self.search);
+    // // endAutocomplete.bindTo('bounds', self.map);
+    // self.searchPlace = searchAutocomplete.getPlace()
+    // // console.log(self.searchPlace)
     
     self.searchResults = []
 
@@ -256,7 +261,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       });
     };
 
-    var walkData
+    // var walkData
 
 
     self.calculateSavedRoute = function (directionsService, directionsDisplay) {

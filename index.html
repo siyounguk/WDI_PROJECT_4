@@ -40,8 +40,8 @@
       </nav>
     </header>
 
-    <div ui-view>
-    </div>
+
+    
 
     <div class="message">
       {{users.message}}
@@ -53,7 +53,7 @@
       <p>Here is the list of our current walks:</p>
       <ul>
         <li ng-repeat="walk in walks.all">
-          Start: {{walk.origin.name}}, {{walk.origin.formatted_address}}
+          Start: {{walks.origin.name}}, {{walk.origin.formatted_address}}
           <ul>
             <li ng-repeat= "stop in walk.stops">{{stop.name}}</li>
           </ul>
@@ -68,7 +68,15 @@
         <br> 
       </ul>
     </div> -->
-    <div id="main-map" style="width:100vw;height:100vh;"></div>
+    <div id="directions-panel">
+      
+    </div>
+    <div ui-view>
+    </div>
+    <div id="main-map" style="width:100vw;height:100vh;">
+      
+    </div>
+ 
   </div> 
 </body>
 </html>
