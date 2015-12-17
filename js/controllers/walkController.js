@@ -34,7 +34,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.infowindow = new maps.InfoWindow({map : self.map});
     self.infowindow.close();
 
-    // setup autocomplete fields
     var inputFields = [].slice.call(document.getElementsByClassName('autocomplete'));
     inputFields.forEach(function(input) {
       var autocomplete = new maps.places.Autocomplete(input);
@@ -44,13 +43,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         console.log(autocomplete.getPlace());
       });
     });
-
-
-
-    // originPlace
-    // destinationPlace
-    // searchPlace
-    // waypointPlace
 
     self.geolocate = function() {
       
@@ -69,7 +61,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
           handleLocationError(true, self.infoWindow, self.map.getCenter());
         });
       } else {
-        // Browser doesn't support Geolocation
         handleLocationError(false, self.infoWindow, self.map.getCenter());
       }
     }
@@ -101,22 +92,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     });
 
     self.clearMap = function (){
-      console.log("clicked")
-
       self.directionsDisplay.setDirections({routes: []});
-      // console.log(self.marker)
-        // self.marker.setMap(null) 
-        
-        // console.log(self.marker)
-     // self.marker = []
-     // waypts.setMap(null)
-     // waypts = []
-     // self.directionsDisplay.setMap(null)
-     self.directionsDisplay.setMap(null)
-     self.directionsDisplay.setOptions({ suppressMarkers: true })
-     self.directionsDisplay = null
-     // self.directionsDisplay.set('directions', null)
-     // self.directionsDisplay =null;
+      self.directionsDisplay.setMap(null)
+      self.directionsDisplay.setOptions({ suppressMarkers: true })
+      self.directionsDisplay = null
     }
 
     self.addRoute = function(){
@@ -150,9 +129,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
       self.startEndClicked = true
 
-      console.log(self.waypointPlace);
-
-
       // // if (originPlace.photos){
       // //   console.log(originPlace.photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}))
       // // }
@@ -182,7 +158,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         if (status === google.maps.DirectionsStatus.OK) {
           self.directionsDisplay.setDirections(response);
           var route = response.routes[0];
-
           // var summaryPanel = document.getElementById('directions-panel');
           // summaryPanel.innerHTML = '';
           // For each route, display summary information.
@@ -253,36 +228,26 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
           longitude: self.searchPlace.geometry.location.K,
           distance: distNum
       }
-    
   
       Walk.findRoute(self.searchParams, function(data){
-         self.searchResults = data
-         
+         self.searchResults = data       
       });  
     }
 
-    
-
     self.selectWalk = function(walk) {
-
-      self.selectedWalk = Walk.get({ id: walk._id });
-      
+      self.selectedWalk = Walk.get({ id: walk._id });    
       self.selectedWalk.$promise.then(function(data){
 
           self.selectedWalk = data
           console.log(self.selectedWalk)
           self.calculateSavedRoute(self.directionsService, self.directionsDisplay)
-
       });
     };
-
 
     self.calculateSavedRoute = function (directionsService, directionsDisplay) {
 
       var originPlace = self.selectedWalk.origin
       var destinationPlace = self.selectedWalk.destination
-      // console.log(originPlace.geometry.location)
-
       var waypts = [];
 
       for (var i = 0; i < self.selectedWalk.stops.length; i++) {  
@@ -306,31 +271,12 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
          {
           self.directionsDisplay.setDirections(response);
           var route = response.routes[0];
-
-          // var summaryPanel = document.getElementById('directions-panel');
-          // summaryPanel.innerHTML = '';
-          // // For each route, display summary information.
-          // for (var i = 0; i < route.legs.length; i++) {
-          //   var routeSegment = i + 1;
-          //   summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-          //       '</b><br>';
-          //   summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-          //   summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-          //   summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-
-          // }
         } else {
           window.alert('Directions request failed due to ' + status);
         }
       }) 
     }
-
-
-
-
-  });
-
-  
+  });  
   self.walk = {}
   self.all =  Walk.query();
 }

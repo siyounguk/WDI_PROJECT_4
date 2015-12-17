@@ -28,12 +28,25 @@ ul{
 }
 
 i{
-  font-size: 30px;
+  font-size: 40px;
   color: rgb(32, 32, 30);
-/*  width: 34px !important;
-  height: 34px !important;*/
 }
 
+i.plus.icon{
+  font-size: 25px
+}
+
+i.home.icon{
+  font-size: 25px
+}
+
+i.search.icon{
+  font-size: 25px
+}
+
+i.sign.out.icon{
+  font-size: 25px
+}
 #title{
   text-align: center;
   margin: 0 auto;

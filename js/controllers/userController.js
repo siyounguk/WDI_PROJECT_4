@@ -12,12 +12,8 @@ angular
     
     function handleLogin(res) {
       var token = res.token ? res.token : null;
-      console.log(res);
-      
-      // Console.log our response from the API
+
       if(token) {
-        console.log(res);
-        // display agents
         self.getUsers();
         self.user = TokenService.getUser();
       }
@@ -27,7 +23,6 @@ angular
 
 
     self.login = function() {
-      // this is running the function on our model
       User.login(self.user, handleLogin);
     }
 
@@ -46,7 +41,6 @@ angular
     }
 
     self.isLoggedIn = function(){
-      // returns boolean value
       return !!TokenService.getToken();
     }
 
