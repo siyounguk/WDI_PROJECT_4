@@ -7,7 +7,6 @@ angular
     var self = this;
 
     self.all    = [];
-
     self.user  = {};
     
     function handleLogin(res) {
@@ -20,7 +19,6 @@ angular
 
       self.message = res.message;
     }
-
 
     self.login = function() {
       User.login(self.user, handleLogin);
