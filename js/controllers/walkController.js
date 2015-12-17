@@ -6,7 +6,8 @@ WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogl
 function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService){
   var self = this;
 
-  self.clicked = false
+  self.startEndClicked = false
+  self.waypointClicked = false
   self.route = {
     stops: []
   };
@@ -39,6 +40,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         console.log(autocomplete.getPlace());
       });
     });
+
+
 
     // originPlace
     // destinationPlace
@@ -124,9 +127,11 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     }
 
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
-      self.clicked = true
+      self.startEndClicked = true
 
-      console.log(self.originPlace);
+      console.log(self.waypointPlace);
+
+
       // // if (originPlace.photos){
       // //   console.log(originPlace.photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}))
       // // }
@@ -172,9 +177,15 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
           window.alert('Directions request failed due to ' + status);
         }
       }) 
+
+      self.waypointPlace = ""
     }
 
     self.addLocation = function (){
+      
+
+
+      self.waypointClicked = true
       self.infowindow.close();
       self.marker.setVisible(false);
       var stop = self.waypointPlace;
