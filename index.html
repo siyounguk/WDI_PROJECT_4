@@ -35,7 +35,7 @@
         <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="register">register</a> -->
         <a ui-sref-active="active" ui-sref="search">search</a>
         <!-- <a ui-sref-active="active" ui-sref="add" >add</a> -->
-        <a ng-hide= "users.isLoggedIn() == false" href="#" ng-click="users.disappear()" ui-sref="home" >Log Out</a>
+        <a ng-hide= "!users.isLoggedIn()" href="#" ng-click="users.disappear()" ui-sref="home" >Log Out</a>
         <a ui-sref-active="active" ui-sref="home" ng-model="home" ng-hide="home">HOME</a>
         <a class="addRoute"ui-sref-active="active" ui-sref="add"><i class="add circle icon"></i></a>
         <button id="clear map" ng-click= " walks.clearMap()"> Clear map </button>
@@ -48,8 +48,7 @@
     
 
   <div ng-controller="walkController as walks">
- <!--    <div id="directions-panel">    
-    </div> -->
+ 
     <div ui-view>
     </div>
     <div class="message">
