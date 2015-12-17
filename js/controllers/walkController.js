@@ -8,6 +8,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
   self.startEndClicked = false
   self.waypointClicked = false
+  self.searchClicked = false
   self.route = {
     stops: []
   };
@@ -242,7 +243,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.searchResults = []
 
     self.searchWalks = function(){
-      console.log("search walks")
+
       self.distance = document.getElementById('distance-select')
       distance = self.distance.options[self.distance.selectedIndex].value
       distNum = parseFloat(distance)
@@ -257,13 +258,13 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       Walk.findRoute(self.searchParams, function(data){
          self.searchResults = data
          
-      });
-      
+      });  
     }
 
     
 
     self.selectWalk = function(walk) {
+
       self.selectedWalk = Walk.get({ id: walk._id });
       
       self.selectedWalk.$promise.then(function(data){
@@ -291,9 +292,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         })  
         // placesList.innerHTML += '<li>' + checkboxArray[i].name + '<img src='+checkboxArray.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})+'>'+'</li>'
       }
-      console.log(waypts)
-      
 
+      
       self.directionsService.route({
         origin: originPlace.formatted_address,
         destination: destinationPlace.formatted_address,

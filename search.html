@@ -1,19 +1,27 @@
-<div class="centered" ng-controller="walkController as walks">
+<div id="search" class="centered ui-form" ng-controller="walkController as walks" ng-hide"walks.searchClicked">
+  <div class="form-bg" >
+    <label for="search">Where would you like to start your tour?</label>
+    <input id="search" class="controls autocomplete ui-search" type="text"
+    placeholder="search">
+    <label for="distance">Please select the search area:</label>
+    <select id="distance-select"placeholder="select distance">
+      <option value="0.5">0.5km</option>
+      <option value="1">1.0km</option>
+      <option value="2">2.0km</option>
+      <option value="5">5.0km</option>
+    </select>
+    <button class="ui secondary button" ng-click="walks.searchWalks()">Let's find us a crawl</button>
+  </div>
+
+    <!-- <ul> -->
+    <div class="ui relaxed divided list"  > 
+      <div ng-repeat= "result in walks.searchResults" class="item" ng-click="walks.selectWalk(result)">
+        <div class="content"> 
+          <i class="bar icon"></i> 
+          {{result.origin.name}}, {{result.origin.formatted_address}}
+          <a href="#">show route</a>
+        </div>
+      </div>
+    </div>   
   
-  <input id="search" class="controls autocomplete ui-search" type="text"
-     placeholder="search">
-  <select id="distance-select"placeholder="select distance">
-    <option value="0.5">0.5</option>
-    <option value="1">1.0</option>
-    <option value="2">2.0</option>
-    <option value="5">5.0</option>
-  </select>
-  <button class="ui secondary button" ng-click="walks.searchWalks()">search dude</button>
-  
-  <ul>
-    <li ng-repeat= "result in walks.searchResults" ng-click="walks.selectWalk(result)">   
-      {{result.origin.name}}, {{result.origin.formatted_address}}
-      <a href="#" ng-click="walks.showRoute(character)">show route</a>
-    </li>
-  </ul>
 </div>

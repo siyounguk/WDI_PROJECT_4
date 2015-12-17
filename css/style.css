@@ -52,11 +52,102 @@ i{
   z-index: 2;
   position: absolute;
   /*left: 50%;*/
-  top: 20%;
+  top: 50%;
   transform: translate(-50%,-50%);
   background-color: #fff;
   /*padding: 5px; */
   font-family: 'Roboto','sans-serif';
+}
+
+label{
+  font-size: 15px;
+}
+
+.bar.icon{
+  color: white;
+}
+
+.ui.relaxed.divided.list{
+  height: 50px;
+  overflow-y: scroll;
+}
+
+
+
+input#search.controls.autocomplete.ui-search{
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+  color: black;
+}
+
+div.centered.ui-form{
+  padding: 20px;
+  background-color: black;
+  opacity: .9;
+  color: white;
+  top:80%;
+}
+
+form#login{
+  background-color: black;
+  opacity: .9;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+form#register{
+  background-color: black;
+  opacity: .9;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+div#floating-panel.centered.ui-form{
+  background-color: black;
+  opacity: .9;
+  border-radius: 5px;
+  top:80%;
+}
+
+.controls.field.autocomplete{
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+  color: black;
+}
+
+input#destination .controls.field.autocomplete{
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+  color: black;
+}
+
+#description{
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+  color: black;
+}
+
+input{
+  color: black;
+}
+
+button.ui.secondary.button{
+  z-index: 4;
+}
+
+select#distance-select{
+  color: black
+}
+
+.form-bg{
+
+  z-index: 4
 }
 
 #main-map {
@@ -126,6 +217,11 @@ img{
   border-radius: 10px;
 }
 
+a{
+  color: #337ab7;
+  font-weight: bolder;
+  font-size: 18px;
+}
 
 /*nav {
   position: absolute;
