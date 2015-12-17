@@ -2,11 +2,9 @@ angular
   .module('walks')
   .controller('walkController', WalksController);
 
-WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogleMapApi', 'TokenService', '$interval'];
-function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService, $interval){
+WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogleMapApi', 'TokenService'];
+function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService){
   var self = this;
-
-  self.$interval = $interval;
 
   self.route = {
     stops: []
@@ -19,6 +17,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   var checkboxArray = []
 
   uiGmapGoogleMapApi.then(function(maps) {
+    console.log("GMAPS LOADED");
     var polylineOptions = new maps.Polyline({
       strokeColor: 'blue',
       strokeOpacity: 0.6,
@@ -27,7 +26,24 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 14 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}]});
 
     self.infowindow = new maps.InfoWindow({map : self.map});
-    self.infowindow.close()
+    self.infowindow.close();
+
+    // setup autocomplete fields
+    var inputFields = [].slice.call(document.getElementsByClassName('autocomplete'));
+    inputFields.forEach(function(input) {
+      var autocomplete = new maps.places.Autocomplete(input);
+      autocomplete.bindTo('bounds', self.map);
+      autocomplete.addListener('place_changed', function() {
+        self[input.id + 'Place'] = autocomplete.getPlace();
+        console.log(autocomplete.getPlace());
+      });
+    });
+
+    // originPlace
+    // destinationPlace
+    // searchPlace
+    // waypointPlace
+
     self.geolocate = function() {
       
       if (navigator.geolocation) {
@@ -74,33 +90,12 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       anchorPoint: new maps.Point(0, -29)
     });
 
-
-
     self.clearMap = function (){
      self.directionsDisplay.setMap(null)       
     }
 
-    self.journeyAutocompleteFields = function(){
-      self.input = document.getElementById('pac-input');
-      self.autocomplete = new maps.places.Autocomplete(self.input);
-      self.autocomplete.bindTo('bounds', self.map); 
-     
-      self.startInput = document.getElementById('start');
-      var startAutocomplete = new maps.places.Autocomplete(self.startInput);
-      startAutocomplete.bindTo('bounds', self.map);
-      self.originPlace = startAutocomplete.getPlace()
-     
-      self.endInput = document.getElementById('end');
-      var endAutocomplete = new maps.places.Autocomplete(self.endInput);
-      endAutocomplete.bindTo('bounds', self.map);
-      self.destinationPlace = endAutocomplete.getPlace()
-    }
-
     self.addRoute = function(){
       self.route.user = TokenService.getUser();
-      journeyAutocompleteFields()
-      // self.originPlace = startAutocomplete.getPlace()
-      // self.destinationPlace = endAutocomplete.getPlace()
 
       originLoc = self.originPlace.geometry.location
 
@@ -128,8 +123,9 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     }
 
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
-      journeyAutocompleteFields()
-      console.log(self.originPlace)
+
+
+      console.log(self.originPlace);
       // // if (originPlace.photos){
       // //   console.log(originPlace.photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}))
       // // }
@@ -149,8 +145,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       }
 
       self.directionsService.route({
-        origin: originPlace.geometry.location,
-        destination: destinationPlace.geometry.location,
+        origin: self.originPlace.geometry.location,
+        destination: self.destinationPlace.geometry.location,
         waypoints: waypts,
         optimizeWaypoints: true,
         travelMode: google.maps.TravelMode.WALKING,
@@ -180,7 +176,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.addLocation = function (){
       self.infowindow.close();
       self.marker.setVisible(false);
-      var stop = self.autocomplete.getPlace();
+      var stop = self.waypointPlace;
       if (!stop.geometry) {
         window.alert("Autocomplete's returned stop contains no geometry");
         return;
@@ -211,37 +207,16 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       }));
       self.marker.setPosition(stop.geometry.location);
       self.marker.setVisible(true);
-
-      var address = '';
-      if (stop.address_components) {
-        address = [
-          (stop.address_components[0] && stop.address_components[0].short_name || ''),
-          (stop.address_components[1] && stop.address_components[1].short_name || ''),
-          (stop.address_components[2] && stop.address_components[2].short_name || '')
-        ].join(' ');
-      }
-
-
-
-    }
-
-    self.searchAutocompleteFields = function(){
-      self.search = document.getElementById('search');
-      var searchAutocomplete = new maps.places.Autocomplete(self.search);
-      // endAutocomplete.bindTo('bounds', self.map);
-      self.searchPlace = searchAutocomplete.getPlace()
-      // console.log(self.searchPlace)
     }
     
     self.searchResults = []
 
     self.searchWalks = function(){
-      self.searchPlace = searchAutocomplete.getPlace()
+    
       self.distance = document.getElementById('distance-select')
       distance = self.distance.options[self.distance.selectedIndex].value
       distNum = parseFloat(distance)
-      // distNumK = distNum /=111.2 
-      console.log(distNum)
+      // distNumK = distNum /=111.2 å
       self.searchParams = {
           latitude: self.searchPlace.geometry.location.G, 
           longitude: self.searchPlace.geometry.location.K,

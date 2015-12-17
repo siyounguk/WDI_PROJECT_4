@@ -31,11 +31,11 @@
     <header>
       <nav >
         <a ui-sref-active="active" ui-sref="home" ng-model="home" ng-hide="home">HOME</a>
-        <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="login">LOGIN</a>
-        <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="register">register</a>
-        <a  ui-sref-active="active" ui-sref="search">search</a>
+<!--         <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="login">LOGIN</a>
+        <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="register">register</a> -->
+        <a ui-sref-active="active" ui-sref="search">search</a>
         <a ui-sref-active="active" ui-sref="add" >add</a>
-        <a ng-hide= "users.isLoggedIn() == false" href="#" ng-click="users.disappear()">Log Out</a>
+        <a ng-hide= "users.isLoggedIn() == false" href="#" ng-click="users.disappear()" ui-sref="home" >Log Out</a>
         <button id="clear map" ng-click= " walks.clearMap()"> Clear map </button>
       </nav>
     </header>
@@ -48,32 +48,13 @@
     </div>
 
   <div ng-controller="walkController as walks">
-  <!--     <div id="walks-list">
-      <a href="#" ng-click="walks.geolocate()">find yourself</a>
-      <p>Here is the list of our current walks:</p>
-      <ul>
-        <li ng-repeat="walk in walks.all">
-          Start: {{walks.origin.name}}, {{walk.origin.formatted_address}}
-          <ul>
-            <li ng-repeat= "stop in walk.stops">{{stop.name}}</li>
-          </ul>
-          End: {{walk.destination.name}}, {{walk.destination.formatted_address}}
-          <br>
-          <strong>Description: {{walk.description}}</strong> 
-          <br>
-          <button>See Route</button>
-          User:
-          {{walk.user}}
-        </li>
-        <br> 
-      </ul>
-    </div> -->
-    <div id="directions-panel">
-      
+    <div id="directions-panel">    
     </div>
-    <div ui-view>
+        <div ui-view>
+
     </div>
     <div id="main-map" style="width:100vw;height:100vh;">
+    <a class="addRoute"ui-sref-active="active" ui-sref="add">add Route</a>
       
     </div>
  

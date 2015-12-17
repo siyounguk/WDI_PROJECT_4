@@ -1,7 +1,6 @@
 <section ng-hide= "users.isLoggedIn() == true">
   <h3>Join</h3>
-  <form id="register" ng-submit="users.register()">
-
+  <form id="register">
     <label for="email">Email</label>
     <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
 
@@ -16,4 +15,5 @@
 
     <input type="submit" value="Access">
   </form>
+  <button type="submit" form="register" value="Access" ng-click="users.register()"ui-sref="search">register</button>
 </section>

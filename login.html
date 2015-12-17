@@ -1,14 +1,15 @@
-<section ng-hide= "users.isLoggedIn() == true">
-  <h3>Login</h3>
-  <form id="login" ng-submit="users.login()">
+<div class='shader'></div>
 
-
-    <label for="email">email</label>
-    <input type="text" name="email" placeholder="What is your email?" ng-model="users.user.email">
-
-    <label for="password">Password</label>
-    <input type="password" name="password" placeholder="What is your password?" ng-model="users.user.password">
-
-    <input type="submit" value="Access">
-  </form>
+<div class="centered">
+  <section ng-hide= "users.isLoggedIn() == true">
+    <h3>Login</h3>
+    <form id="login"  >  
+      <label for="email">email</label>
+      <input type="text" name="email" placeholder="What is your email?" ng-model= "users.user.email">
+  
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="What is your password?"  ng-model="users.user.password">
+    </form>
+    <button type="submit" form="login" value="Access" ng-click="users.login()"ui-sref="search">login</button>
 </section>
+</div>

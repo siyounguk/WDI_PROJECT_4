@@ -1,16 +1,14 @@
-<div ng-controller="walkController as walks"  ng-init="walks.searchAutocompleteFields()">
+<div class="centered" ng-controller="walkController as walks">
   
-  <form id="search-form" ng-submit="walks.searchWalks()">
-    <input id="search" class="controls" type="text"
-       placeholder="search" >
-    <select id="distance-select" placeholder= "select distance">
-      <option value= "0.5">0.5</option>
-      <option value= "1">1.0</option>
-      <option value= "2">2.0</option>
-      <option value= "5">5.0</option>
-    </select>
-    <input type="submit" id="submit" value="search dude">
-  </form>
+  <input id="search" class="controls autocomplete" type="text"
+     placeholder="search">
+  <select id="distance-select"placeholder="select distance">
+    <option value="0.5">0.5</option>
+    <option value="1">1.0</option>
+    <option value="2">2.0</option>
+    <option value="5">5.0</option>
+  </select>
+  <button ng-click="walks.searchWalks()">search dude</button>
   
   <ul>
     <li ng-repeat= "result in walks.searchResults" ng-click="walks.selectWalk(result)">   

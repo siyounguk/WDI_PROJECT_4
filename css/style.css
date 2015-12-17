@@ -32,6 +32,9 @@ body{
 */  /*z-index: -1;*/
 }
 
+.addRoute{
+  z-index: 3
+}
 
 .centered {
   z-index: 2;
@@ -86,6 +89,8 @@ img{
   opacity: 0.8;
   border-radius: 10px;
 }
+
+.directions
 
 /*nav {
   position: absolute;
