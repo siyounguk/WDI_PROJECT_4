@@ -1,11 +1,15 @@
 
 <div ng-controller="walkController as walks" id="floating-panel" class="centered ui-form">
+
   <button class="ui secondary button" ng-click="walks.calculateAndDisplayRoute()" >pick your start & end point</button>
   <br>
-  <input id="origin" class="controls field autocomplete" type="text"
-   placeholder="Start Point" >
-  <input id="destination" class="controls field autocomplete" type="text"
-   placeholder="End Point" >
+  <div class="fields">
+    <div class="field">
+      <input id="origin" class="controls field autocomplete" type="text"placeholder="Start Point" >
+    </div>
+    <input id="destination" class="controls field autocomplete" type="text"
+   placeholder="End Point">
+  </div> 
 
 
   <input id="waypoint" class="controls autocomplete field" type="text"
@@ -15,7 +19,7 @@
 
   <input id="description" class="controls field" type="text" placeholder="description" ng-model="walks.route.description" ng-show="walks.startEndClicked">
 
-  <input id="photo" class="controls field" type="text" placeholder="photo URL" ng-model="walks.route.photo" ng-show="walks.startEndClicked">
+  <!-- <input id="photo" class="controls field" type="text" placeholder="photo URL" ng-model="walks.route.photo" ng-show="walks.startEndClicked"> -->
 
   <button class="ui secondary button" ng-click="walks.addRoute()" ng-show="walks.waypointClicked" ui-sref="search">set route</button>   
 </div>  

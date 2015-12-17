@@ -31,19 +31,12 @@
     <header>
       <nav ng-controller="walkController as walks" >
         
-<!--         <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="login">LOGIN</a>
-        <a ng-hide= "users.isLoggedIn() == true" ui-sref-active="active" ui-sref="register">register</a> -->
         <ul class="nav ui icon borderless inverted menu">
           <div class="left menu">
             <li><a class="item" ui-sref-active="active" ui-sref="search" ng-click="walks.  clearMap()"><i class="search icon"></i></a></li>
             <!-- <a ui-sref-active="active" ui-sref="add" >add</a> -->
             <li><a class="item" ng-hide= "!users.isLoggedIn()" href="#" ng-click="users.disappear()" ui-sref="home" ><i class="sign out icon"></i></a></li>
           </div>
-
-              <div class="ui compact menu">
-                
-              </div>
-
           <div class="right menu">
             <li><a class="ui item"ui-sref-active="active" ui-sref="home" ng-model="home" ng-hide="home"><i class="home icon"></i></a></li>
             <li><a class="ui item" class="addRoute"ui-sref-active="active" ui-sref="add"><i class="plus icon"></i></a></li>

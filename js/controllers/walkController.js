@@ -95,7 +95,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     // self.infowindow = new maps.InfoWindow({map : self.map});
     self.marker = new maps.Marker({
       map: self.map,
-      anchorPoint: new maps.Point(0, -29)
+      anchorPoint: new maps.Point(0, -29),
+      icon: icon
     });
 
     self.clearMap = function (){
@@ -227,13 +228,13 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         self.map.setCenter(stop.geometry.location);
         self.map.setZoom(17);  // Why 17? Because it looks good.
       }
-      self.marker.setIcon(/** @type {google.maps.Icon} */({
-        url: stop.icon,
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(35, 35)
-      }));
+      // self.marker.setIcon(/** @type {google.maps.Icon} */({
+      //   url: stop.icon,
+      //   size: new google.maps.Size(71, 71),
+      //   origin: new google.maps.Point(0, 0),
+      //   anchor: new google.maps.Point(17, 34),
+      //   scaledSize: new google.maps.Size(35, 35)
+      // }));
       self.marker.setPosition(stop.geometry.location);
       self.marker.setVisible(true);
     }
