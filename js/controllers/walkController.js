@@ -25,7 +25,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       strokeOpacity: 0.6,
       strokeWeight: 9,
     });
-    self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 14 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}]});
+    self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 14 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}], streetViewControl: false, panControl: false, mapTypeControl: false, zoomControlOptions: {
+      style: google.maps.ZoomControlStyle.SMALL,
+      position: google.maps.ControlPosition.RIGHT_CENTER
+    } });
 
     self.infowindow = new maps.InfoWindow({map : self.map});
     self.infowindow.close();
@@ -79,7 +82,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     self.directionsService = new maps.DirectionsService;
     self.directionsDisplay = new maps.DirectionsRenderer(rendererOptions)
-    self.directionsDisplay.suppressMarkers = true
+    // self.directionsDisplay.suppressMarkers = true
     self.directionsDisplay.setMap(self.map);
     var rendererOptions = {
       map: self.map,
@@ -88,6 +91,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       polylineOptions: polylineOptions
     };
 
+    var icon = "./beer_glass.png"
     // self.infowindow = new maps.InfoWindow({map : self.map});
     self.marker = new maps.Marker({
       map: self.map,
@@ -95,7 +99,22 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     });
 
     self.clearMap = function (){
-     self.directionsDisplay.setMap(null)       
+      console.log("clicked")
+
+      self.directionsDisplay.setDirections({routes: []});
+      // console.log(self.marker)
+        // self.marker.setMap(null) 
+        
+        // console.log(self.marker)
+     // self.marker = []
+     // waypts.setMap(null)
+     // waypts = []
+     // self.directionsDisplay.setMap(null)
+     self.directionsDisplay.setMap(null)
+     self.directionsDisplay.setOptions({ suppressMarkers: true })
+     self.directionsDisplay = null
+     // self.directionsDisplay.set('directions', null)
+     // self.directionsDisplay =null;
     }
 
     self.addRoute = function(){
@@ -183,8 +202,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     self.addLocation = function (){
       
-
-
       self.waypointClicked = true
       self.infowindow.close();
       self.marker.setVisible(false);
@@ -224,7 +241,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.searchResults = []
 
     self.searchWalks = function(){
-    
+      console.log("search walks")
       self.distance = document.getElementById('distance-select')
       distance = self.distance.options[self.distance.selectedIndex].value
       distNum = parseFloat(distance)
@@ -238,28 +255,30 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   
       Walk.findRoute(self.searchParams, function(data){
          self.searchResults = data
+         
       });
+      
     }
+
+    
 
     self.selectWalk = function(walk) {
       self.selectedWalk = Walk.get({ id: walk._id });
-      // console.log(self)
+      
       self.selectedWalk.$promise.then(function(data){
 
           self.selectedWalk = data
+          console.log(self.selectedWalk)
           self.calculateSavedRoute(self.directionsService, self.directionsDisplay)
+
       });
     };
-
-    // var walkData
 
 
     self.calculateSavedRoute = function (directionsService, directionsDisplay) {
 
       var originPlace = self.selectedWalk.origin
       var destinationPlace = self.selectedWalk.destination
-
-  
       // console.log(originPlace.geometry.location)
 
       var waypts = [];
@@ -271,6 +290,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         })  
         // placesList.innerHTML += '<li>' + checkboxArray[i].name + '<img src='+checkboxArray.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})+'>'+'</li>'
       }
+      console.log(waypts)
       
 
       self.directionsService.route({

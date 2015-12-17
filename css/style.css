@@ -6,7 +6,34 @@ nav {
   position: absolute;
   z-index: 1;
   top: 0;
-  background: black;
+  width: 100%;
+  vertical-align: middle;
+  color: white;  
+}
+
+ul{
+  margin-left: 0;
+  list-style-type: none
+}
+
+.nav-image{
+
+  margin: 0 auto;
+}
+
+
+
+.ui.icon.menu{
+  margin-left: 0;
+  font-size: 25px;
+  background: none;
+}
+
+i{
+  font-size: 30px;
+  color: rgb(32, 32, 30);
+/*  width: 34px !important;
+  height: 34px !important;*/
 }
 
 #title{
@@ -87,7 +114,7 @@ nav {
 
 .contain ul li {
   margin: 10px;
-  display: inline-block;
+  display: block;
   color: #fff;
 }
 

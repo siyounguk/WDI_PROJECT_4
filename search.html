@@ -1,6 +1,6 @@
 <div class="centered" ng-controller="walkController as walks">
   
-  <input id="search" class="controls autocomplete" type="text"
+  <input id="search" class="controls autocomplete ui-search" type="text"
      placeholder="search">
   <select id="distance-select"placeholder="select distance">
     <option value="0.5">0.5</option>
@@ -8,7 +8,7 @@
     <option value="2">2.0</option>
     <option value="5">5.0</option>
   </select>
-  <button ng-click="walks.searchWalks()">search dude</button>
+  <button class="ui secondary button" ng-click="walks.searchWalks()">search dude</button>
   
   <ul>
     <li ng-repeat= "result in walks.searchResults" ng-click="walks.selectWalk(result)">   
