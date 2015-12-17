@@ -6,6 +6,7 @@ WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogl
 function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService){
   var self = this;
 
+  self.clicked = false
   self.route = {
     stops: []
   };
@@ -123,7 +124,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     }
 
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
-
+      self.clicked = true
 
       console.log(self.originPlace);
       // // if (originPlace.photos){
@@ -156,17 +157,17 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
           self.directionsDisplay.setDirections(response);
           var route = response.routes[0];
 
-          var summaryPanel = document.getElementById('directions-panel');
-          summaryPanel.innerHTML = '';
+          // var summaryPanel = document.getElementById('directions-panel');
+          // summaryPanel.innerHTML = '';
           // For each route, display summary information.
-          for (var i = 0; i < route.legs.length; i++) {
-            var routeSegment = i + 1;
-            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                '</b><br>';
-            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-          }
+          // for (var i = 0; i < route.legs.length; i++) {
+          //   var routeSegment = i + 1;
+          //   summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+          //       '</b><br>';
+          //   summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+          //   summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+          //   summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+          // }
         } else {
           window.alert('Directions request failed due to ' + status);
         }
@@ -269,21 +270,23 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         travelMode: google.maps.TravelMode.WALKING,
       }, function(response, status) {
         self.directionsDisplay.suppressMarkers = true
-        if (status === google.maps.DirectionsStatus.OK) {
+        if (status === google.maps.DirectionsStatus.OK)
+         {
           self.directionsDisplay.setDirections(response);
           var route = response.routes[0];
 
-          var summaryPanel = document.getElementById('directions-panel');
-          summaryPanel.innerHTML = '';
-          // For each route, display summary information.
-          for (var i = 0; i < route.legs.length; i++) {
-            var routeSegment = i + 1;
-            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                '</b><br>';
-            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-          }
+          // var summaryPanel = document.getElementById('directions-panel');
+          // summaryPanel.innerHTML = '';
+          // // For each route, display summary information.
+          // for (var i = 0; i < route.legs.length; i++) {
+          //   var routeSegment = i + 1;
+          //   summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+          //       '</b><br>';
+          //   summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+          //   summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+          //   summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+
+          // }
         } else {
           window.alert('Directions request failed due to ' + status);
         }

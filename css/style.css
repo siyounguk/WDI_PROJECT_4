@@ -2,6 +2,13 @@ body{
   /*z-index: -2;*/
 }
 
+nav {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  background: black;
+}
+
 #title{
   text-align: center;
   margin: 0 auto;
@@ -15,16 +22,17 @@ body{
 .angular-google-map-container { height: 400px; }
 
 #floating-panel {
-  top: 10px;
-  left: 25%;
-  z-index: 5;
+  /*top: 10px;
+  left: 25%;*/
+  z-index: 2;
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%,-50%);
   background-color: #fff;
   padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
+  border: 1px solid #999;  
   font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
 }
 
 #main-map {
@@ -33,7 +41,11 @@ body{
 }
 
 .addRoute{
-  z-index: 3
+/*  z-index: 3;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  color: #333;*/
 }
 
 .centered {
