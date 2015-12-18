@@ -1,7 +1,6 @@
 angular
   .module('walks')
-  .factory('AuthInterceptor', AuthInterceptor)
-
+  .factory('AuthInterceptor', AuthInterceptor)  
 
 AuthInterceptor.$inject = ['API', 'TokenService'];
 function AuthInterceptor(API, TokenService){

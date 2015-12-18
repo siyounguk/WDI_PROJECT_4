@@ -4,13 +4,13 @@
   <div class="contain" ng-controller="walkController as walks">
     <h1 id="title"><img src="./assets/PUB_HOP.jpg" width="300px"></h1>
     <br>
-    <h2>Plan your top trips in london</h2>
+    <h2>plan your top pub walks in london</h2>
     <ul>
-      <li><a ng-hide= "users.isLoggedIn()" ui-sref="login">Login</a></li>
-      <li><a ng-hide= "users.isLoggedIn()"ui-sref="register">Register</a></li>
+      <li><a ng-hide= "users.isLoggedIn()" ui-sref="login">login</a></li>
+      <li><a ng-hide= "users.isLoggedIn()"ui-sref="register">register</a></li>
       <li><a ng-hide= "!users.isLoggedIn()"ui-sref-active="active" ui-sref="search">search</a></li>
       <li><a ng-hide= "!users.isLoggedIn()"ui-sref-active="active" ui-sref="add">add</a></li>
-      <li><a ng-hide= "!users.isLoggedIn()" href="#" ng-click="users.disappear()" ui-sref="home" >Log Out</a></li>
+      <li><a ng-hide= "!users.isLoggedIn()" href="#" ng-click="users.disappear()" ui-sref="home" >log out</a></li>
     </ul>
   </div>
 </div>
