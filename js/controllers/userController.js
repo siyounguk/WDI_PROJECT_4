@@ -22,6 +22,7 @@ angular
 
     self.login = function() {
       User.login(self.user, handleLogin);
+      User.isLoggedIn()
     }
 
     self.register = function() {

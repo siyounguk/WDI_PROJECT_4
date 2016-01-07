@@ -3,7 +3,8 @@ angular
   .constant('API', 'http://serene-sierra-1004.herokuapp.com/api')
   .config(Interceptors)
   .config(GoogleMaps)
-  .config(MainRouter);
+  .config(MainRouter)
+  
 
 Interceptors.$inject = ['$httpProvider'];
 function Interceptors($httpProvider){
@@ -35,7 +36,7 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
     })
     .state('search', {
       url: "/search",
-      templateUrl: "search.html",
+      templateUrl: "search.html"
     })
     .state('add', {
       url: "/add",
