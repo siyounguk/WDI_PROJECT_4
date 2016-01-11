@@ -94,8 +94,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     // });
 
     self.clearMap = function (){
-      self.directionsDisplay.setDirections({routes: []});
-      self.directionsDisplay.setMap(null)
+      
+   
       self.directionsDisplay.setOptions({ suppressMarkers: true })
       self.directionsDisplay = null
     }
@@ -221,7 +221,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.searchResults = []
 
     self.searchWalks = function(){
-      self.searchClicked = true
+      self.searchClicked = true 
       self.distance = document.getElementById('distance-select')
       distance = self.distance.options[self.distance.selectedIndex].value
       distNum = parseFloat(distance)

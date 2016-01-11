@@ -81,12 +81,12 @@ label{
 }
 
 .ui.relaxed.divided.list{
-  height: 60px;
+  height: 120px;
   overflow-y: scroll;
 }
 
 input#search.controls.autocomplete.ui-search{
-  width: 300px;
+  
   height: 30px;
   font-size: 15px;
   color: black;
@@ -97,7 +97,11 @@ div.centered.ui-form{
   background-color: black;
   opacity: .9;
   color: white;
-  top:80%;
+  top:77%;
+}
+
+div#search.centered.ui-form{
+  width: 300px;
 }
 
 div#floating-panel.centered.ui-form.add-route{
@@ -173,19 +177,6 @@ select#distance-select{
 .form-bg{
 
   z-index: 4
-}
-
-#main-map {
-/*  position: absolute;
-*/  /*z-index: -1;*/
-}
-
-.addRoute{
-/*  z-index: 3;
-  position: absolute;
-  top: 20px;
-  right: 10px;
-  color: #333;*/
 }
 
 .centered {

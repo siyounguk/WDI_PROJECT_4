@@ -36,14 +36,17 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
     })
     .state('search', {
       url: "/search",
-      templateUrl: "search.html"
+      templateUrl: "search.html",
+    })
+    .state('search-again', {
+      url: "/search",
+      templateUrl: "search.html",
     })
     .state('add', {
       url: "/add",
       templateUrl: "add.html"
     })
   $urlRouterProvider.otherwise("/");
-
 }
  
 
