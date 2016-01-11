@@ -168,6 +168,7 @@ input{
 
 button.ui.secondary.button{
   z-index: 4;
+  margin-bottom: 3.5;
 }
 
 select#distance-select{
