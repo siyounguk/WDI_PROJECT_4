@@ -26,7 +26,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       strokeOpacity: 0.6,
       strokeWeight: 9
     });
-    self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 14 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}], streetViewControl: false, panControl: false, mapTypeControl: false, zoomControlOptions: {
+    self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 15 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}], streetViewControl: false, panControl: false, mapTypeControl: false, zoomControlOptions: {
       style: google.maps.ZoomControlStyle.SMALL,
       position: google.maps.ControlPosition.RIGHT_CENTER
     } });
@@ -72,16 +72,17 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       'Error: Your browser doesn\'t support geolocation.');
     }
 
+    var rendererOptions = {
+      map: self.map
+
+    };
+
+
     self.directionsService = new maps.DirectionsService;
     self.directionsDisplay = new maps.DirectionsRenderer(rendererOptions)
     // self.directionsDisplay.suppressMarkers = true
     self.directionsDisplay.setMap(self.map);
-    var rendererOptions = {
-      map: self.map,
-      suppressInfoWindows: true,
-      suppressMarkers: true,
-      polylineOptions: polylineOptions
-    };
+
 
     var icon = "./beer_glass.png"
     // self.infowindow = new maps.InfoWindow({map : self.map});

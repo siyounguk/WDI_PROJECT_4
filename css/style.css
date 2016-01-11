@@ -81,7 +81,7 @@ label{
 }
 
 .ui.relaxed.divided.list{
-  height: 50px;
+  height: 60px;
   overflow-y: scroll;
 }
 
@@ -95,7 +95,7 @@ input#search.controls.autocomplete.ui-search{
 }
 
 div.centered.ui-form{
-  padding: 20px;
+  padding: 7px;
   background-color: black;
   opacity: .9;
   color: white;
@@ -106,15 +106,25 @@ form#login{
   background-color: black;
   opacity: .9;
   color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 5px;
+}
+
+.ui.form .field>label{
+  color: white;
+  font-size: 1.12em;
+}
+
+input.ng-pristine.ng-untouched.ng.valid{
+  padding: 0.478614em 1em;
+  font-size: 1.12em;
 }
 
 form#register{
   background-color: black;
   opacity: .9;
   color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 5px;
 }
 
@@ -234,6 +244,10 @@ a{
   color: #337ab7;
   font-weight: bolder;
   font-size: 18px;
+}
+
+.home-links{
+  color: #DCDBDA;
 }
 
 /*nav {

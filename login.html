@@ -2,12 +2,16 @@
 
 <div class="centered">
   <section ng-hide= "users.isLoggedIn() == true">
-    <form id="login" class="ui-form">  
-      <label for="email">email</label>
-      <input type="text" name="email" placeholder="email" ng-model= "users.user.email">
+    <form id="login" class="ui small form">
+      <div class="field"> 
+        <label for="email">email</label>
+        <input type="text" name="email" placeholder="email" ng-model= "users.user.email">
+      </div> 
       
-      <label for="password">password</label>
-      <input type="password" name="password" placeholder="password"  ng-model="users.user.password">
+      <div class="field"> 
+        <label for="password">password</label>
+        <input type="password" name="password" placeholder="password"  ng-model="users.user.password">
+      </div>
     </form>
     <button class="ui secondary button" type="submit" form="login" value="Access" ng-click="users.login()" ui-sref="home" >login</button>
   </section>
