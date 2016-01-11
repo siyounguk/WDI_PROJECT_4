@@ -1,25 +1,26 @@
-<div ng-controller="walkController as walks" class="centered ui-form" id="floating-panel">
+<div ng-controller="walkController as walks" class="centered ui-form add-route" id="floating-panel">
   <div class="form-bg">
   <form class="ui form">
-    <button class="ui secondary button" ng-click="walks.  calculateAndDisplayRoute()" >pick your start & end point</button>
+    <button class="ui secondary button" ng-click="walks.calculateAndDisplayRoute()" >pick your start & end point</button>
     <br>
-    <div class="fields">
+    
       <div class="field">
         <input id="origin" class="controls field autocomplete" type="text"  placeholder="Start Point" >
       </div>
       <div>
         <input id="destination" class="controls field autocomplete" type="text" placeholder="End Point">
-     </div>
-    </div> 
-    
-    <input id="waypoint" class="controls autocomplete field" type="text"
-      placeholder="Enter a location" ng-show="walks.startEndClicked" ng-model=" walks.waypointPlace">
-    <button class="ui secondary button" ng-click="walks.addLocation()" ng-show="walks.startEndClicked">add stop?</button>
-  
-  
-    <input id="description" class="controls field" type="text" placeholder="  description" ng-model="walks.route.description" ng-show="walks. startEndClicked">
-  
-    <button class="ui secondary button" ng-click="walks.addRoute()" ng-show=" walks.waypointClicked" ui-sref="search">set route</button>
+      </div>
+   
+    <div class="field">
+      <input id="waypoint" class="controls autocomplete field" type="text" placeholder="Enter a location" ng-show="walks.startEndClicked" ng-model=" walks.waypointPlace">
+    </div>
+
+    <button class="ui secondary button" ng-click="walks.addLocation()" ng-show="walks.startEndClicked">{{walks.text}}</button>
+    <button class="ui secondary button" ng-click="walks.addWalkDesc()" ng-show="walks.startEndClicked">add a description?</button>
+    <div class="field">
+      <input id="description" class="controls field" type="text" placeholder="  description" ng-model="walks.route.description" ng-show="walks.addDescClicked">
+    </div>
+    <button class="ui secondary button" ng-click="walks.addRoute()" ng-show="walks.waypointClicked" ui-sref="search">set route</button>
   </form> 
   </div>    
 </div>  

@@ -9,6 +9,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   self.startEndClicked = false
   self.waypointClicked = false
   self.searchClicked = false
+  self.addDescClicked = false
   self.route = {
     stops: []
   };
@@ -83,14 +84,16 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     // self.directionsDisplay.suppressMarkers = true
     self.directionsDisplay.setMap(self.map);
 
+    self.text = "add stop?"
 
-    var icon = "./beer_glass.png"
-    // self.infowindow = new maps.InfoWindow({map : self.map});
-    self.marker = new maps.Marker({
-      map: self.map,
-      anchorPoint: new maps.Point(0, -29),
-      icon: icon
-    });
+
+    // var icon = "./beer_glass.png"
+    // // self.infowindow = new maps.InfoWindow({map : self.map});
+    // self.marker = new maps.Marker({
+    //   map: self.map,
+    //   anchorPoint: new maps.Point(0, -29),
+    //   icon: icon
+    // });
 
     self.clearMap = function (){
       self.directionsDisplay.setDirections({routes: []});
@@ -180,9 +183,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     self.addLocation = function (){
       
+      self.text = "add another stop?"
       self.waypointClicked = true
       self.infowindow.close();
-      self.marker.setVisible(false);
+      // self.marker.setVisible(false);
       var stop = self.waypointPlace;
       if (!stop.geometry) {
         window.alert("Autocomplete's returned stop contains no geometry");
@@ -214,6 +218,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       // }));
       self.marker.setPosition(stop.geometry.location);
       self.marker.setVisible(true);
+    }
+
+    self.addWalkDesc = function(){
+      self.addDescClicked = true
     }
     
     self.searchResults = []
