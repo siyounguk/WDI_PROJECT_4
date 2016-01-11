@@ -1,17 +1,23 @@
 <section ng-hide= "users.isLoggedIn() == true">
   <div class="centered">
     <form id="register" class="ui small form">
-      <label for="email">email</label>
-      <input type="text" name="email" placeholder="What is your email?" ng-model= "users.user.email">
-  
-      <label for="firstName">first name</label>
-      <input type="text" name="firstName" placeholder="First Name" ng-model=" users.user.firstName">
-  
-      <label for="lastName">last name</label>
-      <input type="text" name="lastName" placeholder="Last Name" ng-model="users. user.lastName">
-  
-      <label for="password">password</label>
-      <input type="password" name="password" placeholder="Password" ng-model="  users.user.password">
+
+      <div class="field">
+        <label for="email">email</label>
+        <input type="text" name="email" placeholder="What is your email?" ng-model= "users.user.email">
+      </div>
+      <div class="field">
+        <label for="firstName">first name</label>
+        <input type="text" name="firstName" placeholder="First Name" ng-model=" users.user.firstName">
+      </div>
+      <div class="field"  >
+        <label for="lastName">last name</label>
+        <input type="text" name="lastName" placeholder="Last Name" ng-model="users. user.lastName">
+      </div>
+      <div class="field">
+        <label for="password">password</label>
+        <input type="password" name="password" placeholder="Password" ng-model="  users.user.password">
+      </div>
     </form>
     <button class="ui secondary button" type="submit" form="register" value="Access" ng-click="users.register()" ui-sref="home">register</button>
   </div>
