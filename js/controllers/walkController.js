@@ -9,7 +9,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   self.startEndClicked = false
   self.waypointClicked = false
   self.searchClicked = false
-  self.addDescClicked = false
   self.route = {
     stops: []
   };
@@ -17,7 +16,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   self.formData = { latitude: 51.51, longitude: -0.121, distance: 500 };
 
   route = self.route
-
   var checkboxArray = []
 
   uiGmapGoogleMapApi.then(function(maps) {
@@ -220,14 +218,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       self.marker.setVisible(true);
     }
 
-    self.addWalkDesc = function(){
-      self.addDescClicked = true
-    }
-    
     self.searchResults = []
 
     self.searchWalks = function(){
-
+      self.searchClicked = true
       self.distance = document.getElementById('distance-select')
       distance = self.distance.options[self.distance.selectedIndex].value
       distNum = parseFloat(distance)

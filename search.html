@@ -16,7 +16,7 @@
         </select>
       </div>
       <button class="ui secondary button" ng-click="walks.searchWalks()">Let's find us a crawl</button>
-      <div class="ui relaxed divided list"  > 
+      <div class="ui relaxed divided list"  ng-show="walks.searchClicked"> 
         <div ng-repeat= "result in walks.searchResults" class="item" ng-click="walks.selectWalk(result)">
           <div class="content"> 
             <i class="bar icon"></i> 
