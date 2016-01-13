@@ -19,7 +19,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
   var checkboxArray = []
 
   uiGmapGoogleMapApi.then(function(maps) {
-    console.log("GMAPS LOADED");
     var polylineOptions = new maps.Polyline({
       strokeColor: 'blue',
       strokeOpacity: 0.6,
@@ -39,22 +38,18 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       autocomplete.bindTo('bounds', self.map);
       autocomplete.addListener('place_changed', function() {
         self[input.id + 'Place'] = autocomplete.getPlace();
-        console.log(autocomplete.getPlace());
       });
     });
 
     self.geolocate = function() {
-      
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-
           self.infoWindow.setPosition(pos);
           self.infoWindow.setContent('Location found.');
-
           self.map.setCenter(pos);
         }, function() {
           handleLocationError(true, self.infoWindow, self.map.getCenter());
@@ -73,37 +68,21 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
     var rendererOptions = {
       map: self.map
-
     };
 
-
     self.directionsService = new maps.DirectionsService;
-    self.directionsDisplay = new maps.DirectionsRenderer(rendererOptions)
-    // self.directionsDisplay.suppressMarkers = true
+    self.directionsDisplay = new maps.DirectionsRenderer(rendererOptions);
     self.directionsDisplay.setMap(self.map);
+    self.text = "add stop?";
 
-    self.text = "add stop?"
-
-
-    // var icon = "./beer_glass.png"
-    // // self.infowindow = new maps.InfoWindow({map : self.map});
-    // self.marker = new maps.Marker({
-    //   map: self.map,
-    //   anchorPoint: new maps.Point(0, -29),
-    //   icon: icon
-    // });
-
-    self.clearMap = function (){
-      
-   
-      self.directionsDisplay.setOptions({ suppressMarkers: true })
-      self.directionsDisplay = null
+    self.clearMap = function (){   
+      self.directionsDisplay.setOptions({ suppressMarkers: true });
+      self.directionsDisplay = null;
     }
 
     self.addRoute = function(){
       self.route.user = TokenService.getUser();
-
-      originLoc = self.originPlace.geometry.location
+      originLoc = self.originPlace.geometry.location;
 
       self.route.origin = {
         place_id: self.originPlace.place_id,
@@ -111,10 +90,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         formatted_address: self.originPlace.formatted_address,
         name: self.originPlace.name
       }
-      routeOrigin = self.route.origin
-      route.origin = routeOrigin
+      routeOrigin = self.route.origin;
+      route.origin = routeOrigin;
   
-      destLoc = self.destinationPlace.geometry.location
+      destLoc = self.destinationPlace.geometry.location;
       
       self.route.destination = {
         place_id: self.destinationPlace.place_id,
@@ -122,22 +101,14 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         formatted_address: self.destinationPlace.formatted_address,
         name: self.destinationPlace.name
       }
-      routeDestination = self.route.destination
-      route.destination = routeDestination      
+      routeDestination = self.route.destination;
+      route.destination = routeDestination;      
       
-      Walk.save(self.route)
+      Walk.save(self.route);
     }
 
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
-      self.startEndClicked = true
-
-      // // if (originPlace.photos){
-      // //   console.log(originPlace.photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}))
-      // // }
-      // var originPlace = startAutocomplete.getPlace()
-      // var destinationPlace = endAutocomplete.getPlace()
-      // // console.log(originPlace)
-      // // console.log(originPlace.geometry.location)
+      self.startEndClicked = true;
 
       var waypts = [];
 
@@ -145,8 +116,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         waypts.push({
           location: checkboxArray[i].formatted_address,
           stopover: true
-        })  
-        // placesList.innerHTML += '<li>' + checkboxArray[i].name + '<img src='+checkboxArray.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})+'>'+'</li>'
+        });
       }
 
       self.directionsService.route({
@@ -160,78 +130,54 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         if (status === google.maps.DirectionsStatus.OK) {
           self.directionsDisplay.setDirections(response);
           var route = response.routes[0];
-          // var summaryPanel = document.getElementById('directions-panel');
-          // summaryPanel.innerHTML = '';
-          // For each route, display summary information.
-          // for (var i = 0; i < route.legs.length; i++) {
-          //   var routeSegment = i + 1;
-          //   summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-          //       '</b><br>';
-          //   summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-          //   summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-          //   summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-          // }
         } else {
           window.alert('Directions request failed due to ' + status);
         }
-      }) 
-
-      self.waypointPlace = ""
+      });
+      self.waypointPlace = "";
     }
 
     self.addLocation = function (){
-      
-      self.text = "add another stop?"
-      self.waypointClicked = true
+      self.text = "add another stop?";
+      self.waypointClicked = true;
       self.infowindow.close();
-      // self.marker.setVisible(false);
       var stop = self.waypointPlace;
       if (!stop.geometry) {
         window.alert("Autocomplete's returned stop contains no geometry");
         return;
       }
 
-      stopLoc = stop.geometry.location
+      stopLoc = stop.geometry.location;
       self.route.stops.push({
         place_id: stop.id,
         loc: [stopLoc.lng(), stopLoc.lat()],
         formatted_address: stop.formatted_address,
         name: stop.name
-      }) 
+      });
 
-      checkboxArray.push(stop)
-      self.calculateAndDisplayRoute(self.directionsService, self.directionsDisplay)
+      checkboxArray.push(stop);
+      self.calculateAndDisplayRoute(self.directionsService, self.directionsDisplay);
       if (stop.geometry.viewport) {
         self.map.fitBounds(stop.geometry.viewport);
       } else {
         self.map.setCenter(stop.geometry.location);
-        self.map.setZoom(17);  // Why 17? Because it looks good.
+        self.map.setZoom(17);
       }
-      // self.marker.setIcon(/** @type {google.maps.Icon} */({
-      //   url: stop.icon,
-      //   size: new google.maps.Size(71, 71),
-      //   origin: new google.maps.Point(0, 0),
-      //   anchor: new google.maps.Point(17, 34),
-      //   scaledSize: new google.maps.Size(35, 35)
-      // }));
       self.marker.setPosition(stop.geometry.location);
       self.marker.setVisible(true);
     }
-
-    self.searchResults = []
+    self.searchResults = [];
 
     self.searchWalks = function(){
-      self.searchClicked = true 
-      self.distance = document.getElementById('distance-select')
-      distance = self.distance.options[self.distance.selectedIndex].value
-      distNum = parseFloat(distance)
-      // distNumK = distNum /=111.2 å
+      self.searchClicked = true;
+      self.distance = document.getElementById('distance-select');
+      distance = self.distance.options[self.distance.selectedIndex].value;
+      distNum = parseFloat(distance);
       self.searchParams = {
           latitude: self.searchPlace.geometry.location.G, 
           longitude: self.searchPlace.geometry.location.K,
           distance: distNum
       }
-  
       Walk.findRoute(self.searchParams, function(data){
          self.searchResults = data       
       });  
@@ -241,27 +187,23 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       self.selectedWalk = Walk.get({ id: walk._id });    
       self.selectedWalk.$promise.then(function(data){
 
-          self.selectedWalk = data
-          console.log(self.selectedWalk)
-          self.calculateSavedRoute(self.directionsService, self.directionsDisplay)
+          self.selectedWalk = data;
+          self.calculateSavedRoute(self.directionsService, self.directionsDisplay);
       });
     };
 
     self.calculateSavedRoute = function (directionsService, directionsDisplay) {
-
-      var originPlace = self.selectedWalk.origin
-      var destinationPlace = self.selectedWalk.destination
+      var originPlace = self.selectedWalk.origin;
+      var destinationPlace = self.selectedWalk.destination;
       var waypts = [];
 
       for (var i = 0; i < self.selectedWalk.stops.length; i++) {  
         waypts.push({
           location: self.selectedWalk.stops[i].formatted_address,
           stopover: true
-        })  
-        // placesList.innerHTML += '<li>' + checkboxArray[i].name + '<img src='+checkboxArray.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})+'>'+'</li>'
+        });  
       }
 
-      
       self.directionsService.route({
         origin: originPlace.formatted_address,
         destination: destinationPlace.formatted_address,
@@ -280,6 +222,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       }) 
     }
   });  
-  self.walk = {}
+  self.walk = {};
   self.all =  Walk.query();
 }
