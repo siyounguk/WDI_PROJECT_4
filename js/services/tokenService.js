@@ -6,7 +6,6 @@ TokenService.$inject = ['$window', 'jwtHelper'];
 function TokenService($window, jwtHelper){
   var self = this;
 
-
   self.saveToken = function(token){
     $window.localStorage.setItem('token', token);
   }

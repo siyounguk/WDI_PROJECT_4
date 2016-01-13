@@ -1,5 +1,4 @@
 $(function(){ 
-
   $('.ui.dropdown')
     .dropdown();
 });

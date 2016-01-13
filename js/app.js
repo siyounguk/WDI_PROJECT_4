@@ -5,7 +5,6 @@ angular
   .config(GoogleMaps)
   .config(MainRouter)
   
-
 Interceptors.$inject = ['$httpProvider'];
 function Interceptors($httpProvider){
   $httpProvider.interceptors.push('AuthInterceptor');
