@@ -6,17 +6,17 @@ WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogl
 function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService){
   var self = this;
 
-  self.startEndClicked = false
-  self.waypointClicked = false
-  self.searchClicked = false
+  self.startEndClicked = false;
+  self.waypointClicked = false;
+  self.searchClicked = false;
   self.route = {
     stops: []
   };
 
   self.formData = { latitude: 51.51, longitude: -0.121, distance: 500 };
 
-  route = self.route
-  var checkboxArray = []
+  route = self.route;
+  var checkboxArray = [];
 
   uiGmapGoogleMapApi.then(function(maps) {
     var polylineOptions = new maps.Polyline({
@@ -57,7 +57,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       } else {
         handleLocationError(false, self.infoWindow, self.map.getCenter());
       }
-    }
+    };
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       self.infoWindow.setPosition(pos);
@@ -70,15 +70,15 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       map: self.map
     };
 
-    self.directionsService = new maps.DirectionsService;
+    self.directionsService = new maps.DirectionsService();
     self.directionsDisplay = new maps.DirectionsRenderer(rendererOptions);
     self.directionsDisplay.setMap(self.map);
     self.text = "add stop?";
 
-    self.clearMap = function (){   
+    self.clearMap = function (){
       self.directionsDisplay.setOptions({ suppressMarkers: true });
       self.directionsDisplay = null;
-    }
+    };
 
     self.addRoute = function(){
       self.route.user = TokenService.getUser();
@@ -89,30 +89,30 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         loc: [originLoc.lng(), originLoc.lat()],
         formatted_address: self.originPlace.formatted_address,
         name: self.originPlace.name
-      }
+      };
       routeOrigin = self.route.origin;
       route.origin = routeOrigin;
-  
+
       destLoc = self.destinationPlace.geometry.location;
-      
+
       self.route.destination = {
         place_id: self.destinationPlace.place_id,
         loc: [destLoc.lng(), destLoc.lat()],
         formatted_address: self.destinationPlace.formatted_address,
         name: self.destinationPlace.name
-      }
+      };
       routeDestination = self.route.destination;
-      route.destination = routeDestination;      
-      
+      route.destination = routeDestination;
+
       Walk.save(self.route);
-    }
+    };
 
     self.calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
       self.startEndClicked = true;
 
       var waypts = [];
 
-      for (var i = 0; i < checkboxArray.length; i++) {  
+      for (var i = 0; i < checkboxArray.length; i++) {
         waypts.push({
           location: checkboxArray[i].formatted_address,
           stopover: true
@@ -126,7 +126,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         optimizeWaypoints: true,
         travelMode: google.maps.TravelMode.WALKING,
       }, function(response, status) {
-        self.directionsDisplay.suppressMarkers = true
+        self.directionsDisplay.suppressMarkers = true;
         if (status === google.maps.DirectionsStatus.OK) {
           self.directionsDisplay.setDirections(response);
           var route = response.routes[0];
@@ -135,7 +135,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         }
       });
       self.waypointPlace = "";
-    }
+    };
 
     self.addLocation = function (){
       self.text = "add another stop?";
@@ -163,28 +163,33 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         self.map.setCenter(stop.geometry.location);
         self.map.setZoom(17);
       }
+
       self.marker.setPosition(stop.geometry.location);
       self.marker.setVisible(true);
-    }
+    };
     self.searchResults = [];
 
     self.searchWalks = function(){
       self.searchClicked = true;
       self.distance = document.getElementById('distance-select');
       distance = self.distance.options[self.distance.selectedIndex].value;
+
       distNum = parseFloat(distance);
+
       self.searchParams = {
-          latitude: self.searchPlace.geometry.location.G, 
-          longitude: self.searchPlace.geometry.location.K,
+          latitude: self.searchPlace.geometry.location.lat(),
+          longitude: self.searchPlace.geometry.location.lng(),
           distance: distNum
-      }
+      };
+      console.log(self.searchPlace.geometry.location);
+
       Walk.findRoute(self.searchParams, function(data){
-         self.searchResults = data       
-      });  
-    }
+         self.searchResults = data;
+      });
+    };
 
     self.selectWalk = function(walk) {
-      self.selectedWalk = Walk.get({ id: walk._id });    
+      self.selectedWalk = Walk.get({ id: walk._id });
       self.selectedWalk.$promise.then(function(data){
 
           self.selectedWalk = data;
@@ -197,11 +202,11 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       var destinationPlace = self.selectedWalk.destination;
       var waypts = [];
 
-      for (var i = 0; i < self.selectedWalk.stops.length; i++) {  
+      for (var i = 0; i < self.selectedWalk.stops.length; i++) {
         waypts.push({
           location: self.selectedWalk.stops[i].formatted_address,
           stopover: true
-        });  
+        });
       }
 
       self.directionsService.route({
@@ -211,7 +216,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         optimizeWaypoints: true,
         travelMode: google.maps.TravelMode.WALKING,
       }, function(response, status) {
-        self.directionsDisplay.suppressMarkers = true
+        self.directionsDisplay.suppressMarkers = true;
         if (status === google.maps.DirectionsStatus.OK)
          {
           self.directionsDisplay.setDirections(response);
@@ -219,9 +224,9 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         } else {
           window.alert('Directions request failed due to ' + status);
         }
-      }) 
-    }
-  });  
+      });
+    };
+  });
   self.walk = {};
   self.all =  Walk.query();
 }

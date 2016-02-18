@@ -3,8 +3,8 @@ angular
   .constant('API', 'http://serene-sierra-1004.herokuapp.com/api')
   .config(Interceptors)
   .config(GoogleMaps)
-  .config(MainRouter)
-  
+  .config(MainRouter);
+
 Interceptors.$inject = ['$httpProvider'];
 function Interceptors($httpProvider){
   $httpProvider.interceptors.push('AuthInterceptor');
@@ -17,7 +17,7 @@ function GoogleMaps(uiGmapGoogleMapApiProvider) {
     v: '3.20',
     libraries: 'places'
   });
-};
+}
 
 function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
   $stateProvider
@@ -44,8 +44,6 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
     .state('add', {
       url: "/add",
       templateUrl: "add.html"
-    })
+    });
   $urlRouterProvider.otherwise("/");
 }
- 
-
