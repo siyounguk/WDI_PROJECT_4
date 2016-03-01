@@ -13,6 +13,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     stops: []
   };
 
+
   self.formData = { latitude: 51.51, longitude: -0.121, distance: 500 };
 
   route = self.route;
@@ -41,23 +42,23 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       });
     });
 
-    self.geolocate = function() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          self.infoWindow.setPosition(pos);
-          self.infoWindow.setContent('Location found.');
-          self.map.setCenter(pos);
-        }, function() {
-          handleLocationError(true, self.infoWindow, self.map.getCenter());
-        });
-      } else {
-        handleLocationError(false, self.infoWindow, self.map.getCenter());
-      }
-    };
+    // self.geolocate = function() {
+    //   if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(function(position) {
+    //       var pos = {
+    //         lat: position.coords.latitude,
+    //         lng: position.coords.longitude
+    //       };
+    //       self.infoWindow.setPosition(pos);
+    //       self.infoWindow.setContent('Location found.');
+    //       self.map.setCenter(pos);
+    //     }, function() {
+    //       handleLocationError(true, self.infoWindow, self.map.getCenter());
+    //     });
+    //   } else {
+    //     handleLocationError(false, self.infoWindow, self.map.getCenter());
+    //   }
+    // };
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       self.infoWindow.setPosition(pos);
@@ -74,6 +75,23 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     self.directionsDisplay = new maps.DirectionsRenderer(rendererOptions);
     self.directionsDisplay.setMap(self.map);
     self.text = "add stop?";
+
+    var directionsServiceRouteObject = {
+      waypoints: [] ,
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.WALKING
+    };
+
+    var directionsServiceRouteFunc = function(response, status) {
+      // self.directionsDisplay.suppressMarkers = true;
+      if (status === google.maps.DirectionsStatus.OK)
+       {
+        self.directionsDisplay.setDirections(response);
+        var route = response.routes[0];
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    };
 
     self.clearMap = function (){
       self.directionsDisplay.setOptions({ suppressMarkers: true });
@@ -198,8 +216,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     };
 
     self.calculateSavedRoute = function (directionsService, directionsDisplay) {
-      var originPlace = self.selectedWalk.origin;
-      var destinationPlace = self.selectedWalk.destination;
+      directionsServiceRouteObject.origin = self.selectedWalk.origin.formatted_address;
+      directionsServiceRouteObject.destination = self.selectedWalk.destination.formatted_address;
       var waypts = [];
 
       for (var i = 0; i < self.selectedWalk.stops.length; i++) {
@@ -209,22 +227,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         });
       }
 
-      self.directionsService.route({
-        origin: originPlace.formatted_address,
-        destination: destinationPlace.formatted_address,
-        waypoints: waypts,
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.WALKING,
-      }, function(response, status) {
-        self.directionsDisplay.suppressMarkers = true;
-        if (status === google.maps.DirectionsStatus.OK)
-         {
-          self.directionsDisplay.setDirections(response);
-          var route = response.routes[0];
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
-      });
+      console.log(directionsServiceRouteObject)
+      self.directionsService.route(directionsServiceRouteObject, directionsServiceRouteFunc);
+
+
     };
   });
   self.walk = {};
