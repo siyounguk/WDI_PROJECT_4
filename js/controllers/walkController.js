@@ -25,13 +25,15 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       strokeOpacity: 0.6,
       strokeWeight: 9
     });
-    self.map = new maps.Map(document.getElementById('main-map'), { center: { lat: 51.5081, lng: -0.1000 }, zoom: 15 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}], streetViewControl: false, panControl: false, mapTypeControl: false, zoomControlOptions: {
+
+    var mapOptions = { center: { lat: 51.5081, lng: -0.1000 }, zoom: 15 , styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}], streetViewControl: false, panControl: false, mapTypeControl: false, zoomControlOptions: {
       style: google.maps.ZoomControlStyle.SMALL,
       position: google.maps.ControlPosition.RIGHT_CENTER
-    } });
+    } };
+    self.map = new maps.Map(document.getElementById('main-map'), mapOptions);
 
-    self.infowindow = new maps.InfoWindow({map : self.map});
-    self.infowindow.close();
+    // self.infowindow = new maps.InfoWindow({map : self.map});
+    // self.infowindow.close();
 
     var inputFields = [].slice.call(document.getElementsByClassName('autocomplete'));
     inputFields.forEach(function(input) {
@@ -68,12 +70,19 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     }
 
     var rendererOptions = {
-      map: self.map
+      map: self.map, 
+      suppressInfoWindows: true, 
+      suppressMarkers: true
     };
 
     self.directionsService = new maps.DirectionsService();
+
+
     self.directionsDisplay = new maps.DirectionsRenderer(rendererOptions);
+
     self.directionsDisplay.setMap(self.map);
+
+    
     self.text = "add stop?";
 
     var directionsServiceRouteObject = {
@@ -128,11 +137,13 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
 
       self.startEndClicked = true;
 
+
+
       directionsServiceRouteObject.origin = self.originPlace.geometry.location;
       directionsServiceRouteObject.destination = self.destinationPlace.geometry.location;
 
       var waypts = [];
-      console.log(self.route)
+      
 
       for (var i = 0; i < checkboxArray.length; i++) {
         waypts.push({
@@ -141,7 +152,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
         });
       }
 
-      console.log(waypts)
 
       directionsServiceRouteObject.waypoints = waypts;
 
@@ -218,19 +228,53 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       directionsServiceRouteObject.destination = self.selectedWalk.destination.formatted_address;
       var waypts = [];
 
-
-
+      console.log(self.selectedWalk);
+      var markerLocations = [];
       for (var i = 0; i < self.selectedWalk.stops.length; i++) {
+        markerLocations.push({location: self.selectedWalk.stops[i].loc});
         waypts.push({
           location: self.selectedWalk.stops[i].formatted_address,
           stopover: true
         });
       }
 
+      
+      
+      markerLocations.push({location: self.selectedWalk.origin.loc});
+      markerLocations.push({location: self.selectedWalk.destination.loc});
+      
+      var marker = new Array()
+
+      // console.log(markerLocations)
+
+
+      markerLocations.forEach(function(place, i){
+        console.log(place.location[0])
+        marker[i] = new maps.Marker({
+          position: {
+            lat: place.location[1], 
+            lng: place.location[0]
+          },
+          map : self.map
+        })
+         console.log(marker)
+        var infowindow = new google.maps.InfoWindow({
+          content: "contentString"
+        });
+
+        // var marker = new google.maps.Marker({map: self.map});
+        marker[i].addListener('click', function() {
+          infowindow.open(self.map, marker[i]);
+        })
+      });
+
+
+
+
       directionsServiceRouteObject.waypoints = waypts;
       self.directionsService.route(directionsServiceRouteObject, directionsServiceRouteFunc);
     };
   });
   self.walk = {};
-  self.all =  Walk.query();
+  self.all = Walk.query();
 }
