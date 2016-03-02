@@ -102,8 +102,10 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     };
 
     self.clearMap = function (){
-      self.directionsDisplay.setOptions({ suppressMarkers: true });
-      self.directionsDisplay = null;
+      if(self.directionsDisplay){
+        self.directionsDisplay.setOptions({ suppressMarkers: true });
+        self.directionsDisplay = null;
+      } 
     };
 
     self.addRoute = function(){
@@ -215,6 +217,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     };
 
     self.selectWalk = function(walk) {
+      self.directionsDisplay.suppressMarkers = true;
       self.selectedWalk = Walk.get({ id: walk._id });
       self.selectedWalk.$promise.then(function(data){
 
@@ -224,57 +227,67 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     };
 
     self.calculateSavedRoute = function (directionsService, directionsDisplay) {
-      directionsServiceRouteObject.origin = self.selectedWalk.origin.formatted_address;
-      directionsServiceRouteObject.destination = self.selectedWalk.destination.formatted_address;
+      
+      directionsServiceRouteObject.origin = { 
+        lat: self.selectedWalk.origin.loc[1], 
+        lng: self.selectedWalk.origin.loc[0]
+      };
+      directionsServiceRouteObject.destination = { 
+        lat: self.selectedWalk.destination.loc[1], 
+        lng: self.selectedWalk.destination.loc[0]
+      };
       var waypts = [];
 
       console.log(self.selectedWalk);
       var markerLocations = [];
       for (var i = 0; i < self.selectedWalk.stops.length; i++) {
-        markerLocations.push({location: self.selectedWalk.stops[i].loc});
+        markerLocations.push({
+          name: self.selectedWalk.stops[i].name,
+          location: self.selectedWalk.stops[i].loc
+        });
         waypts.push({
           location: self.selectedWalk.stops[i].formatted_address,
           stopover: true
         });
       }
-
+      console.log(self.selectedWalk)
+      markerLocations.push({
+        name: self.selectedWalk.origin.name,
+        location: self.selectedWalk.origin.loc
+      });
+      markerLocations.push({
+        name: self.selectedWalk.destination.name,
+        location: self.selectedWalk.destination.loc
+      });
       
-      
-      markerLocations.push({location: self.selectedWalk.origin.loc});
-      markerLocations.push({location: self.selectedWalk.destination.loc});
-      
-      var marker = new Array()
-
-      // console.log(markerLocations)
-
+      var marker = new Array();
 
       markerLocations.forEach(function(place, i){
-        console.log(place.location[0])
         marker[i] = new maps.Marker({
           position: {
             lat: place.location[1], 
             lng: place.location[0]
           },
           map : self.map
-        })
-         console.log(marker)
+        });
+        console.log(place);
         var infowindow = new google.maps.InfoWindow({
-          content: "contentString"
+          content: place.name
         });
 
         // var marker = new google.maps.Marker({map: self.map});
         marker[i].addListener('click', function() {
           infowindow.open(self.map, marker[i]);
-        })
+        });
       });
-
-
 
 
       directionsServiceRouteObject.waypoints = waypts;
       self.directionsService.route(directionsServiceRouteObject, directionsServiceRouteFunc);
     };
+
   });
+  
   self.walk = {};
   self.all = Walk.query();
 }
