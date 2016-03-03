@@ -242,8 +242,7 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       var markerLocations = [];
       for (var i = 0; i < self.selectedWalk.stops.length; i++) {
         markerLocations.push({
-          name: self.selectedWalk.stops[i].name,
-          location: self.selectedWalk.stops[i].loc
+          location: self.selectedWalk.stops[i]
         });
         waypts.push({
           location: self.selectedWalk.stops[i].formatted_address,
@@ -252,27 +251,26 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       }
       console.log(self.selectedWalk)
       markerLocations.push({
-        name: self.selectedWalk.origin.name,
-        location: self.selectedWalk.origin.loc
+        location: self.selectedWalk.origin
       });
       markerLocations.push({
-        name: self.selectedWalk.destination.name,
-        location: self.selectedWalk.destination.loc
+        location: self.selectedWalk.destination
       });
       
       var marker = new Array();
 
       markerLocations.forEach(function(place, i){
+        console.log(place)
         marker[i] = new maps.Marker({
           position: {
-            lat: place.location[1], 
-            lng: place.location[0]
+            lat: place.location.loc[1], 
+            lng: place.location.loc[0]
           },
           map : self.map
         });
-        console.log(place);
+        
         var infowindow = new google.maps.InfoWindow({
-          content: place.name
+          content: '<div>' + '<h2>' + place.location.name + '</h2>' + '<p>'+ place.location.formatted_address + '</p>' +'</div>'
         });
 
         // var marker = new google.maps.Marker({map: self.map});

@@ -4,7 +4,15 @@ nav {
   top: 0;
   width: 100%;
   vertical-align: middle;
-  color: white;  
+  color: black;  
+}
+
+.ui.inverted.icon.menu .item {
+    color: #000;
+}
+
+.ui.inverted.menu .active.item {
+    color: #000;
 }
 
 ul{
