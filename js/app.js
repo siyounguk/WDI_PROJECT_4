@@ -47,3 +47,5 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
     });
   $urlRouterProvider.otherwise("/");
 }
+
+

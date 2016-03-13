@@ -11,10 +11,6 @@ nav {
     color: #000;
 }
 
-.ui.inverted.menu .active.item {
-    color: #000;
-}
-
 ul{
   margin-left: 0;
   list-style-type: none

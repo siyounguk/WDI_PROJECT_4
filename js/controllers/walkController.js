@@ -2,8 +2,8 @@ angular
   .module('walks')
   .controller('walkController', WalksController);
 
-WalksController.$inject = ['$window', '$scope','$resource', 'Walk', 'uiGmapGoogleMapApi', 'TokenService'];
-function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, TokenService){
+WalksController.$inject = ['$window', '$scope','$resource', '$state','Walk', 'uiGmapGoogleMapApi', 'TokenService'];
+function WalksController($window, $scope ,$resource, $state, Walk, uiGmapGoogleMapApi, TokenService){
   var self = this;
 
   self.startEndClicked = false;
@@ -13,6 +13,8 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
     stops: []
   };
 
+
+  
 
   self.formData = { latitude: 51.51, longitude: -0.121, distance: 500 };
 
@@ -260,7 +262,6 @@ function WalksController($window, $scope ,$resource, Walk, uiGmapGoogleMapApi, T
       var marker = new Array();
 
       markerLocations.forEach(function(place, i){
-        console.log(place)
         marker[i] = new maps.Marker({
           position: {
             lat: place.location.loc[1], 

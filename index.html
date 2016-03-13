@@ -16,6 +16,7 @@
   <script type="text/javascript" src="./js/models/walk.js"></script>
   <script type="text/javascript" src="./js/controllers/userController.js"></script>
   <script type="text/javascript" src="./js/controllers/walkController.js"></script>
+  <script type="text/javascript" src="./js/controllers/mainController.js"></script>
   <script type="text/javascript" src="./js/services/tokenService.js"></script>
   <script type="text/javascript" src="./js/services/authInterceptor.js"></script>
   <link rel="stylesheet" type="text/css" class="ui" href="//oss.maxcdn.com/semantic-ui/2.1.6/semantic.min.css">
@@ -24,8 +25,8 @@
 </head>
 <body ng-controller="userController as users" >
   <header>
-    <nav ng-controller="walkController as walks">
-      <ul class="nav ui icon borderless inverted menu">
+    <nav ng-controller="mainController">
+      <ul class="nav ui icon borderless inverted menu" ng-hide="state.is('home')"> 
         <div class="left menu">
           <li><a class="ui item" ng-hide="!users.isLoggedIn()" ui-sref-active="active" ui-sref="search" ><i class="search icon"></i>search</a></li>
           <li><a class="ui item" ng-hide="!users.isLoggedIn()" href="#" ng-click="users.disappear()" ui-sref="home" ><i class="sign out icon"></i>logout</a></li>
